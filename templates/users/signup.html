@@ -1,5 +1,14 @@
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save changes</button>
-</form>
+{% extends 'base.html' %} {% load static %} 
+{% block title %} Registro {% endblock %}
+
+
+{% block content %}
+  <div>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save changes</button>
+    </form>
+  </div>
+{% endblock %}
+

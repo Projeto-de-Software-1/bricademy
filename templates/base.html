@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!--Materialize css-->
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />
+
+    <title>{% block title %} {% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper blue">
+        <a href="{% url 'home' %}" class="brand-logo">Bricademy</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+          ><i class="material-icons">menu</i></a
+        >
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="#"
+              ><i class="material-icons right">account_circle </i>Entrar</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'users:signup' %}"
+              ><i class="material-icons right">person_add</i>Criar Conta</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+      <li>
+        <a href="#"><i class="material-icons left">account_circle </i>Entrar</a>
+      </li>
+      <li>
+        <a href="#"><i class="material-icons left">person_add</i>Criar Conta</a>
+      </li>
+    </ul>
+
+    {% block content %} {% endblock %}
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Jquery -->
+    <script
+      type="text/javascript"
+      src="{% static 'js/jquery-3.4.1.min.js' %}"
+    ></script>
+
+    <!--Materialize javascript-->
+    <script
+      type="text/javascript"
+      src="{% static 'js/materialize.min.js' %}"
+    ></script>
+    <script>
+      $(document).ready(function() {
+        $(".sidenav").sidenav();
+      });
+    </script>
+  </body>
+</html>

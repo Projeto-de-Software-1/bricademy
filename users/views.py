@@ -1,4 +1,8 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
+
 from .forms import ProfileForm
 
 
@@ -20,4 +24,16 @@ def signup(request):
             error = True
     else:
         form = ProfileForm()
-    return render(request, 'users/signup.html', {'form': form, 'error': error})
+    return render(request, 'registration/signup.html', {'form': form, 'error': error})
+
+
+class Login(LoginView):
+    form_class = AuthenticationForm
+    authentication_form = None
+    template_name = 'registration/login.html'
+    redirect_authenticated_user = 'home'
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')

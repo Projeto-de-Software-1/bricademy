@@ -13,28 +13,51 @@
   </head>
   <body>
     <nav>
-      <div class="nav-wrapper blue">
-        <a href="{% url 'home' %}" class="brand-logo">Bricademy</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger"
-          ><i class="material-icons">menu</i></a
-        >
+      <div class="nav-wrapper">
+          {% if user.is_authenticated %}
+ 
+        <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+        {% endif %}  
         <ul class="right hide-on-med-and-down">
-          {% if not user.is_authenticated %}
+              {% if not user.is_authenticated %}
 
+              <li>
+                <a href="{% url 'users:login' %}"
+                  ><i class="material-icons right">account_circle </i>Entrar</a
+                >
+              </li>
+              <li>
+                <a href="{% url 'users:signup' %}"
+                  ><i class="material-icons right">person_add</i>Criar Conta</a
+                >
+              </li>
+              {% else %}
+              <li>
+                <a href="{% url 'users:logout' %}"
+                  ><i class="material-icons right">exit_to_app</i>Sair
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+    
+        <ul class="sidenav" id="mobile-demo">
+          {% if not user.is_authenticated %}
           <li>
             <a href="{% url 'users:login' %}"
-              ><i class="material-icons right">account_circle </i>Entrar</a
+              ><i class="material-icons left">account_circle </i>Entrar</a
             >
           </li>
           <li>
             <a href="{% url 'users:signup' %}"
-              ><i class="material-icons right">person_add</i>Criar Conta</a
+              ><i class="material-icons left">person_add</i>Criar Conta</a
             >
           </li>
           {% else %}
           <li>
             <a href="{% url 'users:logout' %}"
-              ><i class="material-icons right">exit_to_app</i>Sair
+              ><i class="material-icons left">exit_to_app</i>Sair
             </a>
           </li>
           {% endif %}
@@ -42,28 +65,49 @@
       </div>
     </nav>
 
-    <ul class="sidenav" id="mobile-demo">
-      {% if not user.is_authenticated %}
-      <li>
-        <a href="{% url 'users:login' %}"
-          ><i class="material-icons left">account_circle </i>Entrar</a
-        >
-      </li>
-      <li>
-        <a href="{% url 'users:signup' %}"
-          ><i class="material-icons left">person_add</i>Criar Conta</a
-        >
-      </li>
-      {% else %}
-      <li>
-        <a href="{% url 'users:logout' %}"
-          ><i class="material-icons left">exit_to_app</i>Sair
-        </a>
-      </li>
-      {% endif %}
-    </ul>
+   
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <ul id="slide-out" class="sidenav">
+          <li>
+            <div class="user-view">
+              <div class="background">
+                <img src="https://materializecss.com/images/office.jpg" />
+              </div>
+              <a href="#user"
+                ><img
+                  class="circle"
+                  src="https://materializecss.com/images/yuna.jpg"
+              /></a>
+              <a href="#name"><span class="white-text name">{{user.get_full_name}}</span></a>
+              <a href="#email"
+                ><span class="white-text email">{{user.email}}</span></a
+              >
+            </div>
+          </li>
+          <li>
+            <a href="#!"><i class="material-icons">person</i>Perfil</a>
+          </li>
+          <li><a href="#!"><i class="material-icons">my_location</i>Endereços</a></li>
+          <li><div class="divider"></div></li>
+          <li><a class="subheader">Subheader</a></li>
+          <li><a class="waves-effect" href="{% url 'users:logout' %}"><i class="material-icons">exit_to_app</i>Sair</a></li>
+        </ul>
 
-    {% block content %} {% endblock %}
+      </div>
+    
+      <div class="col s12 m12 l12">
+        <!-- Note that "m8 l9" was added -->
+        <!-- Teal page content
+    
+                  This content will be:
+              9-columns-wide on large screens,
+              8-columns-wide on medium screens,
+              12-columns-wide on small screens  -->
+              <div class="container">{% block content %} {% endblock %}</div>
+                  
+
+      </div>
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"

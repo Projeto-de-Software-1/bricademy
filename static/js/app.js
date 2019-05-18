@@ -8,3 +8,8 @@ $(document).ready(function() {
 $(document).ready(function() {
   $(".fixed-action-btn").floatingActionButton();
 });
+
+//faz fucionar a side bar
+$(document).ready(function() {
+  $(".sidenav").sidenav();
+});

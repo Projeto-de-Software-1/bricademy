@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Address
 
 
 class ProfileForm(UserCreationForm):
@@ -12,3 +13,10 @@ class ProfileForm(UserCreationForm):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'birth',
                   'CPF', 'password1', 'password2')
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ['street', 'number', 'complement',
+                  'district', 'city', 'CEP', ]

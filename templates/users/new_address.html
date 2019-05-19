@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% load static %} 
+{% block title %} Registro {% endblock %} {% block content %}
+{% block breadcrumbs %}
+      <div class="col s12">
+        <a href="{% url 'users:perfil' %}" class="breadcrumb">Perfil</a>
+        <a href="#!" class="breadcrumb">Endereço</a>
+      </div>
+{% endblock %}
+<div class="content">
+  <div>
+    <div class="row">
+      <div class="col m 6 ">
+        <div class="card-panel">
+          <div class="card-content">
+            <h4 class="header">Endereço</h4>
+          </div>
+          <div class="card-content">
+            <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button class="btn waves-effect waves-light green" type="submit">
+                <i class="material-icons right">send</i>Cadastrar
+              </button>
+              <button class="btn grey lighten-1">Cancelar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  {% endblock %}
+</div>

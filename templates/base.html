@@ -14,34 +14,29 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-          {% if user.is_authenticated %}
- 
-        <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-        {% endif %}  
+        {% if user.is_authenticated %}
+          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+        {% endif %}
         <ul class="right hide-on-med-and-down">
-              {% if not user.is_authenticated %}
+          {% if not user.is_authenticated %}
+            <li>
+              <a href="{% url 'users:login' %}"><i class="material-icons right">account_circle </i>Entrar</a>
+            </li>
+            <li>
+              <a href="{% url 'users:signup' %}"><i class="material-icons right">person_add</i>Criar Conta</a>
+            </li>
+          {% else %}
+            <li>
+                <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
 
-              <li>
-                <a href="{% url 'users:login' %}"
-                  ><i class="material-icons right">account_circle </i>Entrar</a
-                >
-              </li>
-              <li>
-                <a href="{% url 'users:signup' %}"
-                  ><i class="material-icons right">person_add</i>Criar Conta</a
-                >
-              </li>
-              {% else %}
-              <li>
-                <a href="{% url 'users:logout' %}"
-                  ><i class="material-icons right">exit_to_app</i>Sair
-                </a>
-              </li>
-              {% endif %}
-            </ul>
-          </div>
-        </nav>
-    
+            </li>
+            <li>
+              <a href="{% url 'users:logout' %}"><i class="material-icons right">exit_to_app</i>Sair</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
         <ul class="sidenav" id="mobile-demo">
           {% if not user.is_authenticated %}
           <li>
@@ -64,7 +59,6 @@
         </ul>
       </div>
     </nav>
-
    
     <div class="row">
       <div class="col s12 m12 l12">
@@ -86,11 +80,15 @@
             </div>
           </li>
           <li>
-            <a href="#!"><i class="material-icons">person</i>Perfil</a>
+              <a href="{% url 'home' %}"><i class="material-icons left">home</i>Início</a>
+            </li>
+          <li>
+            <a href="{% url 'users:perfil' %}"><i class="material-icons">person</i>Perfil</a>
           </li>
-          <li><a href="#!"><i class="material-icons">my_location</i>Endereços</a></li>
+          <li><a href="#!"><i class="material-icons">library_books</i>Materias</a></li>
           <li><div class="divider"></div></li>
-          <li><a class="subheader">Subheader</a></li>
+          <li><a class="subheader"></a>
+          </li>
           <li><a class="waves-effect" href="{% url 'users:logout' %}"><i class="material-icons">exit_to_app</i>Sair</a></li>
         </ul>
 

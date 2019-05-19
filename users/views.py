@@ -1,9 +1,11 @@
+from .forms import AddressForm
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 
-from .forms import ProfileForm
+from .forms import ProfileForm, AddressForm
+from .models import Address
 
 
 # Create your views here.
@@ -37,3 +39,27 @@ class Login(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+def profile(request):
+    address = Address.objects.filter(user=request.user).first()
+    return render(request, 'users/profile.html',  {'address': address})
+
+
+def newAddress(request):
+    error = False
+    mapbox_access_token = "pk.eyJ1IjoiZG95bGVzbSIsImEiOiJjanZzZWx5bjgzNTE3M3lvajFxMmlyM3diIn0.RImU51Sa3cQqh50ZtCGBkA"
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            error = False
+
+            return render(request, 'home.html', {'mapbox_access_token': mapbox_access_token})
+        else:
+            error = True
+    else:
+        form = AddressForm()
+    return render(request, 'users/new_address.html',  {'form': form, 'mapbox_access_token': mapbox_access_token,  'error': error})

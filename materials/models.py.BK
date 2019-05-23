@@ -1,0 +1,41 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Categories(models.Model):
+    category_name = models.CharField('Categoria', max_length=50)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.category_name
+
+
+class Conservations(models.Model):
+    CONSERVATION_CHOICES = [
+        (0, 'NOVO'),
+        (1, 'SEMINOVO'),
+        (2, 'USADO'),
+        (3, 'MUITO USADO')
+    ]
+    conservation = models.IntegerField(choices=CONSERVATION_CHOICES)
+
+    def __str__(self):
+        return self.conservation
+
+
+class Materials(models.Model):
+    title = models.CharField('Título', max_length=50)
+    author = models.CharField('Autor', max_length=50)
+    ISBN = models.CharField('ISBN', max_length=13, null=True, blank=True)
+    publishing_company = models.CharField(
+        'Editora', max_length=50, null=True, blank=True)
+    publication_date = models.DateField()
+    conservation = models.ManyToManyField(
+        Conservations)
+    category = models.OneToOneField(
+        Categories, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Modificado em', auto_now=True)
+    user = models.ForeignKey(
+        User, verbose_name='Categoria', on_delete=models.PROTECT)
+    #image = models.ImageField('Imagem', upload_to='materials', blank=True, null=True)

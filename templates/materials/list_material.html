@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% load static %} 
+{% block title %} Registro {% endblock %} {% block content %}
+
+<div class="row">
+  {% for material in materials %}
+  <div class="card col m4">
+    <div class="card-image">
+      <img src="https://materializecss.com/images/sample-1.jpg" />
+      <a class="dropdown-trigger btn options-material-list red"  href="#" data-target="dropdown1"
+        > Anunciar</a>
+      <ul id="dropdown1" class="dropdown-content">
+        <li>
+          <a href="#!">Venda</a>
+        </li>
+        <li>
+          <a href="#!">Empréstimo</a>
+        </li>
+        <li>
+          <a href="#!">Doação</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-content">
+      <span class="card-title">{{ material.title }}</span>
+
+      <p>Autor: {{ material.author }}</p>
+      <p>ISBN: {{ material.ISBN }}</p>
+      <p>Editora: {{ material.publishing_company }}</p>
+      <p>Estado de conservação: {{ material.get_conservation_display }}</p>
+      <p>Tipo: {{ material.get_category_display }}</p>
+      <p>
+        Assuntos: {% for subject in material.subject.all %}{{ subject }}, 
+        {% endfor %}
+      </p>
+      <p>Criação: {{ material.created_at }}</p>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+<div class="fixed-action-btn">
+  <a href="{% url "materials:new_material" %}"class="btn-floating btn-large red tooltipped" data-position="bottom" data-tooltip="Novo material"> <i class="large material-icons">add</i></a>
+</div>
+{% endblock %}

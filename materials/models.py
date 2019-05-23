@@ -31,7 +31,7 @@ class Material(models.Model):
     ISBN = models.CharField('ISBN', max_length=13, blank=True, null=True)
     publishing_company = models.CharField(
         'Editora', max_length=50, blank=True, null=True)
-    publication_date = models.DateField()
+    publication_date = models.DateField(blank=True, null=True)
     conservation = models.IntegerField(choices=CONSERVATION_CHOICES)
     category = models.IntegerField(choices=CATEGORY_CHOICES)
     subject = models.ManyToManyField(Subject)

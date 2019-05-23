@@ -8,6 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!--Materialize css-->
     <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+
     {% block head %} {% endblock %}
     <title>{% block title %} {% endblock %}</title>
   </head>
@@ -85,7 +87,7 @@
           <li>
             <a href="{% url 'users:perfil' %}"><i class="material-icons">person</i>Perfil</a>
           </li>
-          <li><a href="#!"><i class="material-icons">library_books</i>Materias</a></li>
+          <li><a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materias</a></li>
           <li><div class="divider"></div></li>
           <li><a class="subheader"></a>
           </li>

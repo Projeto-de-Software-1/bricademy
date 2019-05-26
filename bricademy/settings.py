@@ -124,3 +124,5 @@ STATICFILES_DIRS = [
     'static'
 ]
 LOGIN_REDIRECT_URL = 'home'
+
+#CONFIGURAR EMAIL

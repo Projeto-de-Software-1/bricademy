@@ -141,6 +141,8 @@
       });
     }
   </script>
-
+  {% if user.is_authenticated %}
+    Olá, {{user.get_username}}!
+  {% endif %}
   {% endblock %}
 </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from materials.models import Subject
 
 
 class Profile(models.Model):
@@ -9,6 +10,8 @@ class Profile(models.Model):
         User, on_delete=models.CASCADE, primary_key=True)
     birth = models.DateField(null=True, blank=True)
     CPF = models.CharField('CPF', max_length=15, default="N/A")
+    interest = models.ManyToManyField(Subject)
+    avatar = models.ImageField('avatar', upload_to='users', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -33,3 +36,16 @@ class Address(models.Model):
 
     def __str__(self):
         return self.street + ', ' + self.number + ', ' + self.district + ' - ' + self.city
+
+
+class Evaluation(models.Model):
+    ANALYZES_CHOICES = [
+        (0, 'Material bem conservado'),
+        (1, 'Responde rápido'),
+        (2, 'Simpático')
+    ]
+    rate = models.IntegerField()
+    comment = models.TextField()
+    evaluator = models.ForeignKey(User, related_name='evaluator', on_delete=models.CASCADE, blank=True, null=True)
+    evaluated = models.ForeignKey(User, related_name='evaluated', on_delete=models.CASCADE, blank=True, null=True)
+    analize = models.IntegerField(choices=ANALYZES_CHOICES, blank=True, null=True)

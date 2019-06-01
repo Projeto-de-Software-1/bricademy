@@ -81,7 +81,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+#DATABASES = {
+#    'default': {
+#        'NAME': 'bricademy',
+#        'ENGINE': 'mysql.connector.django',
+#        'USER': 'root',
+#        'PASSWORD': 'root',
+#        'OPTIONS': {
+#          'autocommit': True,
+#        },
+#    }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -120,6 +130,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
 STATICFILES_DIRS = [
     'static'
 ]

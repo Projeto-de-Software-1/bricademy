@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import MaterialForm
-from .models import Material
+from .models import Material, Ad
 
 # Create your views here.
 
@@ -23,6 +23,7 @@ def newMaterial(request):
         form = MaterialForm()
         return render(request, 'materials/new_material.html',  {'form': form,  'error': error})
 
+
 def editMaterial(request, pk):
     material = get_object_or_404(Material, pk=pk)
     print("OIOI")
@@ -44,4 +45,9 @@ def editMaterial(request, pk):
 
 def ListMaterials(request):
     materials = Material.objects.filter(user=request.user)
-    return render(request, 'materials/list_material.html',  {'materials': materials})
+    return render(request, 'materials/list_material.html',  { 'materials': materials })
+
+
+def ad_teste(request):
+    ad = Ad.objects.first()
+    print(ad.material.user.id)

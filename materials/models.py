@@ -39,8 +39,42 @@ class Material(models.Model):
     updated_at = models.DateTimeField('Modificado em', auto_now=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
-
-    # image = models.ImageField('Imagem', upload_to='materials', blank=True, null=True)
+    image = models.ImageField('Image', upload_to='materials', blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+
+class Ad(models.Model):
+    TYPE_CHOICES = [
+        (0, 'VENDA'),
+        (1, 'DOAÇÃO'),
+        (2, 'EMPRÉSTIMO')
+    ]
+
+    duration = models.IntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    loan_start = models.DateField(null=True, blank=True)
+    material = models.OneToOneField(Material, on_delete=models.CASCADE)
+    ad_type = models.IntegerField(choices=TYPE_CHOICES)
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Modificado em', auto_now=True)
+    request_accepted = models.ForeignKey('Request', related_name='request_accepted', on_delete=models.CASCADE, blank=True, null=True)
+
+
+class Request(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField('Criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('Modificado em', auto_now=True)
+
+
+class Complaint(models.Model):
+    COMPLAINT_CHOICES = [
+        (0, 'Conteúdo impróprio'),
+        (1, 'Conteúdo não educacional'),
+        (2, 'Outro')
+    ]
+    message = models.TextField(null=True, blank=True)
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    complaint_type = models.IntegerField(choices=COMPLAINT_CHOICES)

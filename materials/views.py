@@ -16,7 +16,7 @@ def newMaterial(request):
             # TODO
             # ver se esse é o melhor jeito
             materials = Material.objects.filter(user=request.user)
-            return render(request, 'materials/list_masubjectsterial.html',  {'materials': materials})
+            return render(request, 'materials/list_material.html',  {'materials': materials})
         else:
             error = True
     else:

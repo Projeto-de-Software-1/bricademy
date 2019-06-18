@@ -11,7 +11,8 @@ class Profile(models.Model):
     birth = models.DateField(null=True, blank=True)
     CPF = models.CharField('CPF', max_length=15, default="N/A")
     interest = models.ManyToManyField(Subject)
-    avatar = models.ImageField('avatar', upload_to='users', blank=True, null=True)
+    avatar = models.ImageField(
+        'avatar', upload_to='users', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
@@ -46,6 +47,9 @@ class Evaluation(models.Model):
     ]
     rate = models.IntegerField()
     comment = models.TextField()
-    evaluator = models.ForeignKey(User, related_name='evaluator', on_delete=models.CASCADE, blank=True, null=True)
-    evaluated = models.ForeignKey(User, related_name='evaluated', on_delete=models.CASCADE, blank=True, null=True)
-    analize = models.IntegerField(choices=ANALYZES_CHOICES, blank=True, null=True)
+    evaluator = models.ForeignKey(
+        User, related_name='evaluator', on_delete=models.CASCADE, blank=True, null=True)
+    evaluated = models.ForeignKey(
+        User, related_name='evaluated', on_delete=models.CASCADE, blank=True, null=True)
+    analize = models.IntegerField(
+        choices=ANALYZES_CHOICES, blank=True, null=True)

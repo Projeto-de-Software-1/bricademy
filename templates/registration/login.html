@@ -1,14 +1,13 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %} Login {% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block title %} Login
+--------------{% endblock %} {% block content %}
 <div>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Entrar</button><br>
-    <a href="{% url 'users:password_reset' %}" class="btn btn-primary" role="button">Esqueci a senha</a>
-
+    <button class="btn" type="submit">Entrar</button><br />
+    <a href="{% url 'users:password_reset' %}" class="btn" role="button"
+      >Esqueci a senha</a
+    >
   </form>
 </div>
 {% endblock %}

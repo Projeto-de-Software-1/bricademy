@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from materials.models import Ad, Material
 from django.http import HttpResponseNotFound
 from .forms import AdVendaForm
@@ -12,7 +12,9 @@ def index(request):
     return render(request, 'ads/index.html', {'vendas': materiais_venda})
 
 
-def new(request, pk=0):
+def venda(request, pk=0):
+    # TODO
+    # verificar se ja existe algum tipo de anúcio pro material passado
     material = get_object_or_404(Material, pk=pk)
     if(material.user != request.user):
         return HttpResponseNotFound("Este material não lhe pertence, voce não pode anunciar algo que não é seu, QUE PAPELÃO HEIN!")
@@ -28,4 +30,4 @@ def new(request, pk=0):
             ad.ad_type = 0
             ad.save()
             error = False
-    return render(request, 'ads/index.html')
+    return redirect('ads:index')

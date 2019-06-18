@@ -39,7 +39,8 @@ class Material(models.Model):
     updated_at = models.DateTimeField('Modificado em', auto_now=True)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
-    image = models.ImageField('Image', upload_to='materials', blank=True, null=True)
+    image = models.ImageField(
+        'Image', upload_to='materials', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -59,7 +60,12 @@ class Ad(models.Model):
     ad_type = models.IntegerField(choices=TYPE_CHOICES)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Modificado em', auto_now=True)
-    request_accepted = models.ForeignKey('Request', related_name='request_accepted', on_delete=models.CASCADE, blank=True, null=True)
+    request_accepted = models.ForeignKey(
+        'Request', related_name='request_accepted', on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        def __str__(self):
+            return self.material
 
 
 class Request(models.Model):

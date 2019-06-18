@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'materials'
+    'materials',
+    'ads'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'NAME': 'bricademy',
 #        'ENGINE': 'mysql.connector.django',
@@ -91,7 +92,7 @@ DATABASES = {
 #          'autocommit': True,
 #        },
 #    }
-#}
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -138,4 +139,4 @@ STATICFILES_DIRS = [
 ]
 LOGIN_REDIRECT_URL = 'home'
 
-#CONFIGURAR EMAIL
+# CONFIGURAR EMAIL

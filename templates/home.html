@@ -4,8 +4,26 @@
   href="https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css"
   rel="stylesheet"
 />
-{% endblock%} {% block title %} Home {% endblock%} {% block content %}
+{% endblock%} 
 
+
+{% block content %}
+
+{% block title %}  Materiais disponíveis: {% endblock %} <br><br>
+
+  {% for venda in vendas %}
+    MATERIAL:
+    {{ venda.title }}
+    {{ venda.category }}
+    {{ venda.author }}
+
+    {% for subject in venda.subject.all %}
+      {{ subject }} 
+    {% endfor %}
+
+    {{ venda.user.username }}
+    <br><br>
+  {% endfor %}
 
   <div id="map"  style="height:400px"></div>
 
@@ -37,8 +55,7 @@
     </ul>
   </div>
 </div>
-  {% if user.is_authenticated %}
-    Olá, {{user.get_username}}!
-  {% endif %}
+
+
   {% endblock %}
 </div>

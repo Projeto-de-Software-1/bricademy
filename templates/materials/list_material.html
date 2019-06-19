@@ -6,19 +6,23 @@
   <div class="card col m4">
     <div class="card-image">
       <img src="https://materializecss.com/images/sample-1.jpg" />
-      <a class="dropdown-trigger btn options-material-list red"  href="#" data-target="dropdown1"
-        > Anunciar</a>
-      <ul id="dropdown1" class="dropdown-content">
-        <li>
-          <a href="{% url 'ads:venda' material.pk %}">Venda</a>
-        </li>
-        <li>
-          <a href="#!">Empréstimo</a>
-        </li>
-        <li>
-          <a href="#!">Doação</a>
-        </li>
-      </ul>
+      
+      <a class="dropdown-trigger btn options-material-list red"  href="#" data-target="dropdown1"> Anunciar</a>
+        <a href="{% url 'ads:venda' material.pk %}">Venda {{material.pk}}</a>
+
+          <ul id="dropdown1" class="dropdown-content">
+            <li>
+              <a value ="{{material.pk}}" href="{% url 'ads:venda' material.pk %}">Venda {{material.pk}}</a>
+            </li>
+            <li>
+              <a href="#!">Empréstimo</a>
+            </li>
+            <li>
+              <a href="#!">Doação</a>
+            </li>
+          </ul>
+
+
       <a href="{% url 'materials:edit_material' material.pk %}" class="btn btn-primary" role="button">Editar</a>
     </div>
     <div class="card-content">

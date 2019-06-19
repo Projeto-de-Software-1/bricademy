@@ -16,7 +16,10 @@
   <body>
     <nav>
       <div class="nav-wrapper">
+          
         {% if user.is_authenticated %}
+          
+          Olá, {{user.get_username}}!
           <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
         {% endif %}
         <ul class="right hide-on-med-and-down">
@@ -30,7 +33,6 @@
           {% else %}
             <li>
                 <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
-
             </li>
             <li>
               <a href="{% url 'users:logout' %}"><i class="material-icons right">exit_to_app</i>Sair</a>

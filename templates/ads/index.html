@@ -1,8 +1,14 @@
-<h1>estante geral</h1>
+{% extends 'base.html' %} {% load static %} 
+{% block title %}  Materiais disponíveis {% endblock %} 
+{% block content %}
+
 {% for venda in vendas %}
 {{ venda.title }}
 {{ venda.category }}
 {{ venda.author }}
+
 {% for subject in venda.subject.all %}{{ subject }} {% endfor %}
 {{ venda.user.username }}
 {% endfor %}
+
+{% endblock %}

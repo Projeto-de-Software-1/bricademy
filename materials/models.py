@@ -14,7 +14,7 @@ class Subject(models.Model):
 class Material(models.Model):
     CONSERVATION_CHOICES = [
         (0, 'NOVO'),
-        (1, 'SEMINOVO'),
+        (1, 'POUCO USADO'),
         (2, 'USADO'),
         (3, 'MUITO USADO')
     ]

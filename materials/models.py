@@ -54,6 +54,9 @@ class Ad(models.Model):
     ]
 
     duration = models.IntegerField(null=True, blank=True)
+    address = models.CharField('Endereço', max_length=200)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
     loan_start = models.DateField(null=True, blank=True)
     material = models.OneToOneField(Material, on_delete=models.CASCADE)

@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from materials.models import Ad, Material
 from django.http import HttpResponseNotFound
 from .forms import AdVendaForm
+from django.conf import settings
+
 
 def index(request):
     anuncios_venda = Ad.objects.filter(ad_type=0)
@@ -10,8 +12,9 @@ def index(request):
         materiais_venda.append(an.material)
     return render(request, 'home.html', {'vendas': materiais_venda})
 
+
 def venda(request, pk):
-    #Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
+    # Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
     ads = Ad.objects.filter(material=pk)
     print(ads)
     if not ads:
@@ -21,10 +24,10 @@ def venda(request, pk):
             return HttpResponseNotFound("Este material não lhe pertence, voce não pode anunciar algo que não é seu, QUE PAPELÃO HEIN!")
         if(request.method == 'GET'):
             form = AdVendaForm()
-            return render(request, 'ads/new.html', {'form': form})
+            return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
         elif(request.method == 'POST'):
             form = AdVendaForm(request.POST)
-            # form. = 0  # venda
+            print(form)
             if form.is_valid():
                 ad = form.save(commit=False)
                 ad.material = material

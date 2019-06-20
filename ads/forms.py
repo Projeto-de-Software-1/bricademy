@@ -5,4 +5,6 @@ from materials.models import Ad
 class AdVendaForm(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ['price']
+        fields = ['price', 'address', 'latitude', 'longitude']
+        widgets = {'latitude': forms.HiddenInput(
+        ), 'longitude': forms.HiddenInput()}

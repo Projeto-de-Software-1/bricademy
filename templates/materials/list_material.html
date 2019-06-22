@@ -5,7 +5,7 @@
   {% for material in materials %}
   <div class="card col m4">
     <div class="card-image">
-      <img src="static/images/{{ material.image }}" alt="img">
+      <img src="{{ material.image.url }}" alt="img">
       
       <a class="dropdown-trigger btn options-material-list red"  href="#" data-target="dropdown1"> Anunciar</a>
         <a href="{% url 'ads:ad_url' material.pk %}">Venda {{material.pk}}</a>

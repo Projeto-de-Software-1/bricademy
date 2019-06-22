@@ -7,7 +7,7 @@ from .models import Material, Ad, Subject
 def newMaterial(request):
     error = False
     if request.method == 'POST':
-        form = MaterialForm(request.POST)
+        form = MaterialForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.user = request.user
             form.save()
@@ -50,6 +50,7 @@ def editMaterial(request, pk):
 
 def ListMaterials(request):
     materials = Material.objects.filter(user=request.user)
+
     return render(request, 'materials/list_material.html',  {'materials': materials})
 
 

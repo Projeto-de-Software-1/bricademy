@@ -40,7 +40,7 @@ class Material(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(
-        'Image', upload_to='materials/', blank=True, null=True)
+        'Image', upload_to='materials/')
 
     def __str__(self):
         return self.title

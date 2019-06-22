@@ -1,18 +1,20 @@
 {% extends 'base.html' %} {% load static %} 
-{% block title %}  Registro {% endblock %} 
-{% block content %}
+{% block title %} Novo material 
+{% endblock %} {% block content %}
 <div class="container">
   <div class="card-panel">
     <div class="card-content">
       <h4 class="header">Material</h4>
     </div>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button class="btn waves-effect waves-light green" type="submit">
         <i class="material-icons right">send</i>Cadastrar
       </button>
-      <a href="{% url 'materials:list_material' %}" class="btn grey lighten-1">Cancelar</a>
+      <a href="{% url 'materials:list_material' %}" class="btn grey lighten-1"
+        >Cancelar</a
+      >
     </form>
   </div>
 </div>

@@ -1,5 +1,5 @@
 virtualenv/
-static/images/
+static/images/*
 venv/
 .vscode/
 *.sqlite3

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
-
+from django.contrib.auth import update_session_auth_hash
 from .forms import ProfileForm, AddressForm
 from .models import Address
 
@@ -28,6 +28,18 @@ def signup(request):
         form = ProfileForm()
     return render(request, 'registration/signup.html', {'form': form, 'error': error})
 
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            update_session_auth_hash(request, profile_form.user)
+            return render(request, 'users/profile.html', {})
+        else:
+            error = True
+    else:
+        profile_form = ProfileForm(instance=request.user)
+    return render(request, 'users/edit_profile.html', {'profile_form': profile_form})
 
 class Login(LoginView):
     form_class = AuthenticationForm
@@ -48,7 +60,7 @@ def profile(request):
 
 def newAddress(request):
     error = False
-    mapbox_access_token = "pk.eyJ1IjoiZG95bGVzbSIsImEiOiJjanZzZWx5bjgzNTE3M3lvajFxMmlyM3diIn0.RImU51Sa3cQqh50ZtCGBkA"
+    mapbox_access_token = ""
 
     if request.method == 'POST':
         form = AddressForm(request.POST)

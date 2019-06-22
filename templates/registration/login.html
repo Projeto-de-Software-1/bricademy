@@ -4,10 +4,9 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn" type="submit">Entrar</button><br />
-    <a href="{% url 'users:password_reset' %}" class="btn" role="button"
-      >Esqueci a senha</a
-    >
+    <button class="btn" type="submit">Entrar</button><br/>
+    <h6><p>Não é registrado? <a href="{% url 'users:signup' %}">Registre-se</a></p></h6>
+    <a href="{% url 'users:password_reset' %}">Esqueci a senha</a>
   </form>
 </div>
 {% endblock %}

@@ -14,7 +14,7 @@
         <p>CPF: {{ user.profile.CPF}}</p>
       </div>
       <div class="card-action">
-        <a class="btn-floating btn-small waves-effect waves-light red"
+        <a href="{% url 'users:update_url' %}" class="btn-floating btn-small waves-effect waves-light red"
           ><i class="material-icons">edit</i></a
         >
         <a class="btn-floating btn-small waves-effect waves-light red"
@@ -45,7 +45,6 @@
     </div>
   </div>
 </div>
-
 
 </script>
 {% endblock %}

@@ -8,6 +8,9 @@ from .views import home
 from users import urls as users_urls
 from materials import urls as materials_urls
 from ads import urls as ads_urls
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+ 
+
 urlpatterns = [
     path('', home, name="home"),
     path('materials/', include(materials_urls)),
@@ -15,3 +18,4 @@ urlpatterns = [
     path('ads/', include(ads_urls)),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()

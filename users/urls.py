@@ -1,12 +1,13 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from .views import signup
-from .views import logout_user, Login, profile, newAddress
+from .views import logout_user, Login, profile, newAddress, update_profile
 
 app_name = 'users'
 urlpatterns = [
     path('perfil', profile, name="perfil"),
     path('cadastro', signup, name="signup"),
+    path('editar', update_profile, name="update_url"),
     path('login', Login.as_view(), name='login'),
     path('logout', logout_user, name='logout'),
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html',

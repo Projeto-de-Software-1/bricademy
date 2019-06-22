@@ -3,9 +3,12 @@ from materials.models import Ad, Material
 from django.http import HttpResponseNotFound
 
 def home(request):
-    anuncios_venda = Ad.objects.filter(ad_type=0)
-    materiais_venda = []
-    for an in anuncios_venda:
-        materiais_venda.append(an.material)
-    return render(request, 'home.html', {'vendas': materiais_venda})
+    anuncios = Ad.objects.all()
+    material = []
+    tipos = []
+    for ad in anuncios:
+        material.append(ad.material)
+        tipos.append(ad.ad_type)
+    todos = list(zip(material, tipos))
+    return render(request, 'home.html', {'materiais' : todos})
     # return render(request, 'home.html')

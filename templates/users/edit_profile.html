@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Editar perfil
+{% endblock %}
+
+{% block content %}
+
+    <h3><center>Editar perfil</center></h3>
+    <form method="POST" class="post-form" >{% csrf_token %}
+      {{ profile_form.as_p }}
+      <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

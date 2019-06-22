@@ -6,6 +6,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import update_session_auth_hash
 from .forms import ProfileForm, AddressForm
 from .models import Address
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 
 # Create your views here.
@@ -33,11 +35,21 @@ def update_profile(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, instance=request.user)
         if profile_form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password1']
             profile_form.save()
-            update_session_auth_hash(request, profile_form.user)
+            #update_session_auth_hash(request, profile_form.user)
+            user = authenticate(request, username=username,
+                                password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Dados atualizados com sucesso!!')
+            else:
+                messages.error(request, 'Falha ao atualizar os dados')
+
             return render(request, 'users/profile.html', {})
         else:
-            error = True
+            messages.error(request, 'Falha ao atualizar os dados')
     else:
         profile_form = ProfileForm(instance=request.user)
     return render(request, 'users/edit_profile.html', {'profile_form': profile_form})

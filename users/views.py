@@ -41,7 +41,12 @@ def update_profile(request):
             #update_session_auth_hash(request, profile_form.user)
             user = authenticate(request, username=username,
                                 password=password)
+
             if user is not None:
+                user.profile.birth = profile_form.cleaned_data.get(
+                    'birth')
+                user.profile.CPF = profile_form.cleaned_data.get('CPF')
+                user.save()
                 login(request, user)
                 messages.success(request, 'Dados atualizados com sucesso!!')
             else:

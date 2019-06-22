@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '3*wj&x2@ahgl_t^7*l1^=z6eewopz6nj0)(ar$aubot76$3k16'
-MAPBOX_TOKEN = 'CAGADA'
+MAPBOX_TOKEN = ''
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -140,3 +141,10 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = 'home'
 
 # CONFIGURAR EMAIL
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'blue lighten-2',
+    messages.SUCCESS: 'green accent-3',
+    messages.WARNING: 'orange accent-3',
+    messages.ERROR: 'red darken-1',
+}

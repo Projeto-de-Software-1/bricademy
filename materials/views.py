@@ -1,26 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import MaterialForm
 from .models import Material, Ad, Subject
+from django.contrib import messages
+
 # Create your views here.
 
 
 def newMaterial(request):
-    error = False
     if request.method == 'POST':
         form = MaterialForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.user = request.user
             form.save()
-            error = False
-            # TODO
-            # ver se esse é o melhor jeito
-            materials = Material.objects.filter(user=request.user)
-            return render(request, 'materials/list_material.html',  {'materials': materials})
+            messages.success(request, 'Material cadastrado!')
+            messages.warning(request, 'exemplo Aviso!')
+            messages.error(request, 'exemplo Erro!')
+            messages.info(request, 'exemplo Info!')
+            return redirect("materials:list_material")
         else:
-            error = True
+            messages.warning(request, 'Erro no cadastro')
     else:
         form = MaterialForm()
-        return render(request, 'materials/new_material.html',  {'form': form,  'error': error})
+        return render(request, 'materials/new_material.html',  {'form': form})
 
 
 def editMaterial(request, pk):
@@ -38,7 +39,7 @@ def editMaterial(request, pk):
                 sub = Subject.objects.filter(id=subject).first()
                 material.subject.add(sub)
             material.save()
-
+            messages.success(request, 'Material atualizado com sucesso!')
             return redirect('materials:list_material')
     else:
         form = MaterialForm(instance=material)

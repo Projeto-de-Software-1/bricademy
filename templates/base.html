@@ -66,6 +66,7 @@
     </nav>
    
     <div class="row">
+
       <div class="col s12 m12 l12">
         <ul id="slide-out" class="sidenav">
           <li>
@@ -129,5 +130,12 @@
 
     <!--Js da aplicação-->
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+ 
+      {% for message in messages %}
+      <script>
+        M.toast({html: "{{ message }}", classes: '{{message.tags}} rounded' })
+      </script>
+      {% endfor %}
+
   </body>
 </html>

@@ -28,6 +28,7 @@ def signup(request):
         form = ProfileForm()
     return render(request, 'registration/signup.html', {'form': form, 'error': error})
 
+
 def update_profile(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, instance=request.user)
@@ -40,6 +41,7 @@ def update_profile(request):
     else:
         profile_form = ProfileForm(instance=request.user)
     return render(request, 'users/edit_profile.html', {'profile_form': profile_form})
+
 
 class Login(LoginView):
     form_class = AuthenticationForm

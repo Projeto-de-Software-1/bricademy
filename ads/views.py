@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from materials.models import Ad, Material
+from materials.models import Ad, Material, Request
 from django.http import HttpResponseNotFound
 from .forms import AdVendaForm
 from django.conf import settings
@@ -55,6 +55,19 @@ def cria_anuncio(request, pk):
 
 
 def venda(request,  pk):
+    anuncio = get_object_or_404(Ad, material_id=pk)
+    if(anuncio.deleted == 1):
+        messages.error(request, 'Este anuncio foi removido pelo dono')
+        return redirect('home')
+    solicitacao = Request.objects.filter(ad=anuncio, user=request.user)
+    if(solicitacao):
+        messages.warning(
+            request, 'Você ja fez uma solicitação para esse material')
+        return redirect('home')
+    else:
+        solicitacao = Request.objects.create(ad=anuncio, user=request.user)
+        messages.success(
+            request, 'Solicitação enviada com sucesso')
     return redirect('home')
 
 

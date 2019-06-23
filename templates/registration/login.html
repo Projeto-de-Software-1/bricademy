@@ -1,12 +1,52 @@
-{% extends 'base.html' %} {% load static %} 
-{% block title %} Login {% endblock %} {% block content %}
-<div>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn" type="submit">Entrar</button><br/>
-    <h6><p>Não é registrado? <a href="{% url 'users:signup' %}">Registre-se</a></p></h6>
-    <a href="{% url 'users:password_reset' %}">Esqueci a senha</a>
-  </form>
+{% extends 'base.html' %} {% load static %} {% block title %} Login 
+{% endblock %} {% block content %}
+<div class="row">
+  <div class="col s12 m12 l12">
+    <br /><br /><br />
+    <div class="card-panel">
+      <div class="row">
+        <form class="col s12" method="post">
+          {% csrf_token %}
+          <h4 class="header2 txtavatar">Bem vindo</h4>
+          <br />
+          <div class="row">
+            <div class="input-field col s4">
+              <i class="material-icons prefix">account_circle</i>
+              <input
+                type="text"
+                name="username"
+                autofocus
+                required
+                id="id_username"
+              />
+              <label for="id_username">Usuário:</label>
+            </div>
+            <div class="input-field col s4">
+              <i class="material-icons prefix">lock</i>
+              <input
+                type="password"
+                name="password"
+                required
+                id="id_password"
+              />
+              <label for="id_password">Senha</label>
+            </div>
+            <div class="input-field col s4">
+              <div class="input-field col s12">
+                <button class="btn" type="submit">Entrar</button>
+              </div>
+            </div>
+          </div>
+          <h6>
+            <p>
+              Não é registrado?
+              <a href="{% url 'users:signup' %}">Registre-se</a>
+            </p>
+          </h6>
+          <a href="{% url 'users:password_reset' %}">Esqueci a senha</a>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

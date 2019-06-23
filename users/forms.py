@@ -8,10 +8,11 @@ class ProfileForm(UserCreationForm):
     birth = forms.DateField(
         required=False, help_text='Formato: YYYY-MM-DD')
     CPF = forms.CharField(required=False)
+    avatar = forms.ImageField()
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'username', 'email', 'birth',
+        fields = ('avatar', 'first_name', 'last_name', 'username', 'email', 'birth',
                   'CPF', 'password1', 'password2')
 
 

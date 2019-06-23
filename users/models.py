@@ -12,7 +12,7 @@ class Profile(models.Model):
     CPF = models.CharField('CPF', max_length=15, default="N/A")
     interest = models.ManyToManyField(Subject)
     avatar = models.ImageField(
-        'avatar', upload_to='users', blank=True, null=True)
+        'avatar', upload_to='users', default='/users/avatar.png', blank=True, null=True)
 
     def __str__(self):
         return self.user.username

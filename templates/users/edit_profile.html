@@ -7,9 +7,121 @@
 
 {% block content %}
 
-    <h3><center>Editar perfil</center></h3>
-    <form method="POST" class="post-form" >{% csrf_token %}
-      {{ profile_form.as_p }}
-      <button type="submit">Salvar</button>
-    </form>
+
+    <div class="card-panel">
+      <h4 class="header2 txtavatar">Editar perfil</h4>
+      <div class="row">
+        <form class="col s12" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <div class="">
+              <label for="id_avatar">
+                <img
+                  class="imgcenter"
+                  src="{% static '/images/users/avatar.png' %}"
+                  width="150"
+                  height="150"
+                />
+              </label>
+              <p class="txtavatar">clique na imagem para escolher seu avatar</p>
+              <input
+                style="display: none;"
+                type="file"
+                name="avatar"
+                accept="image/*"
+                required
+                id="id_avatar"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="text"
+                    name="first_name"
+                    maxlength="30"
+                    id="id_first_name"
+                  />
+                  <label for="id_first_name">Primeiro Nome:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="text"
+                    name="last_name"
+                    maxlength="150"
+                    id="id_last_name"
+                  />
+                  <label for="id_last_name">Último nome:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="text"
+                    name="username"
+                    maxlength="150"
+                    required
+                    autofocus
+                    id="id_username"
+                  />
+                  <label for="id_username">Usuário:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="email"
+                    name="email"
+                    maxlength="254"
+                    id="id_email"
+                  />
+                  <label for="id_email">E-mail:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="password"
+                    name="password1"
+                    required
+                    id="id_password1"
+                  />
+                  <label for="id_password1">Senha</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    type="password"
+                    name="password2"
+                    required
+                    id="id_password2"
+                  />
+                  <label for="id_password2">Confirmação de senha:</label>
+                </div>
+              </div>
+
+              <button class="btn" type="submit">Salvar</button>
+            </form>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var avatarInput = document.getElementById("id_avatar");
+  var img = document.querySelector("label[for=id_avatar] img");
+  avatarInput.onchange = function(e) {
+    img.classList.add("preview");
+    img.src = URL.createObjectURL(e.target.files[0]);
+  };
+</script>
+
 {% endblock %}
+

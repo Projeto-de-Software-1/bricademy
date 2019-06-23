@@ -12,28 +12,29 @@ from django.contrib import messages
 
 # Create your views here.
 def signup(request):
-    error = False
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            error = False
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             user.profile.birth = form.cleaned_data.get(
                 'birth')
             user.profile.CPF = form.cleaned_data.get('CPF')
+            user.profile.avatar = form.cleaned_data.get('avatar')
             user.save()
-            return render(request, 'registration/confirmation.html', {})
+
+            return redirect('users:login')
         else:
-            error = True
+            # error
+            pass
     else:
         form = ProfileForm()
-    return render(request, 'registration/signup.html', {'form': form, 'error': error})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def update_profile(request):
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES)
         if profile_form.is_valid():
             username = request.POST['username']
             password = request.POST['password1']
@@ -46,6 +47,7 @@ def update_profile(request):
                 user.profile.birth = profile_form.cleaned_data.get(
                     'birth')
                 user.profile.CPF = profile_form.cleaned_data.get('CPF')
+                user.profile.avatar = profile_form.cleaned_data.get('avatar')
                 user.save()
                 login(request, user)
                 messages.success(request, 'Dados atualizados com sucesso!!')

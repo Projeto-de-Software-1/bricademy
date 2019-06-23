@@ -26,9 +26,14 @@ def newMaterial(request):
 
 def editMaterial(request, pk):
     material = get_object_or_404(Material, pk=pk)
+    if(material.user != request.user):
+        messages.error(request, 'Este material não lhe pertence')
+        return redirect('materials:list_material')
+    if(material.deleted == 1):
+        messages.error(request, 'Este material foi removido')
+        return redirect('materials:list_material')
     if request.method == "POST":
         form = MaterialForm(request.POST, instance=material)
-
         if form.is_valid():
             subjects = request.POST.getlist('subject')
             material = form.save(commit=False)
@@ -50,7 +55,7 @@ def editMaterial(request, pk):
 
 
 def ListMaterials(request):
-    materials = Material.objects.filter(user=request.user)
+    materials = Material.objects.filter(user=request.user, deleted=0)
 
     return render(request, 'materials/list_material.html',  {'materials': materials})
 

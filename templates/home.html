@@ -27,6 +27,7 @@
             <p>Editora: {{ material.0.publishing_company }}</p>
             <p>Conservação: {{ material.0.get_conservation_display }}</p>
             <p>Tipo: {{ material.0.get_category_display }}</p>
+
             <p>
               Assuntos: {% for subject in material.0.subject.all %}
               {{ subject }}, {% endfor %}

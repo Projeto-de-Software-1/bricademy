@@ -41,6 +41,8 @@ class Material(models.Model):
         User, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(
         'Image', upload_to='materials/')
+    deleted = models.IntegerField(default=0)
+    deleted_at = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -65,6 +67,9 @@ class Ad(models.Model):
     updated_at = models.DateTimeField('Modificado em', auto_now=True)
     request_accepted = models.ForeignKey(
         'Request', related_name='request_accepted', on_delete=models.CASCADE, blank=True, null=True)
+
+    deleted = models.IntegerField(default=0)
+    deleted_at = models.IntegerField(blank=True, null=True)
 
     class Meta:
         def __str__(self):

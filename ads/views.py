@@ -16,8 +16,9 @@ def index(request):
     material = []
     tipos = []
     for ad in anuncios:
-        material.append(ad.material)
-        tipos.append(ad.ad_type)
+        if(ad.deleted == 0):
+            material.append(ad.material)
+            tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
     return render(request, 'home.html', {'materiais': todos})
 
@@ -32,7 +33,9 @@ def cria_anuncio(request, pk):
         if(material.user != request.user):
             messages.error(request, 'Este material não lhe pertence')
             return redirect('home')
-            # return HttpResponseNotFound("Este material não lhe pertence, voce não pode anunciar algo que não é seu, QUE PAPELÃO HEIN!")
+        if(material.deleted == 1):
+            messages.error(request, 'Este material foi removido')
+            return redirect('home')
         if(request.method == 'GET'):
             form = AdVendaForm()
             return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})

@@ -6,25 +6,12 @@
   <div class="card col m4">
     <div class="card-image">
       <img src="{{ material.image.url }}" alt="img">
-      
-      <a class="dropdown-trigger btn options-material-list red"  href="#" data-target="dropdown1"> Anunciar</a>
-        <a href="{% url 'ads:ad_url' material.pk %}">Venda {{material.pk}}</a>
+      <a href="{% url 'ads:ad_url' material.pk 0 %}" class="btn btn-primary red" role="button">Venda</a><br>
+      <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn btn-primary red" role="button">Empréstimo</a><br>
+      <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn btn-primary red" role="button">Doação</a><br>
 
-          <ul id="dropdown1" class="dropdown-content">
-            <li>
-              <a value ="{{material.pk}}" href="{% url 'ads:ad_url' material.pk %}">Venda {{material.pk}}</a>
-            </li>
-            <li>
-              <a href="#!">Empréstimo</a>
-            </li>
-            <li>
-              <a href="#!">Doação</a>
-            </li>
-          </ul>
-
-
-      <a href="{% url 'materials:edit_material' material.pk %}" class="btn btn-primary" role="button">Editar</a>
     </div>
+          
     <div class="card-content">
       <span class="card-title">{{ material.title }}</span>
 
@@ -38,6 +25,8 @@
         {% endfor %}
       </p>
       <p>Criação: {{ material.created_at }}</p>
+      <a href="{% url 'materials:edit_material' material.pk %}" class="btn btn-primary" role="button">Editar</a>
+
     </div>
   </div>
   {% endfor %}

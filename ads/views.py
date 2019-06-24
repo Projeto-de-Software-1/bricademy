@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from materials.models import Ad, Material, Request
 from django.http import HttpResponseNotFound
-from .forms import AdVendaForm
+from .forms import AdVendaForm, AdDoacaoForm, AdEmprestimoForm
 from django.conf import settings
 from django.contrib import messages
 
@@ -20,10 +20,11 @@ def index(request):
             material.append(ad.material)
             tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
+    todos.sort(key=lambda x:x[0])
     return render(request, 'home.html', {'materiais': todos})
 
 
-def cria_anuncio(request, pk):
+def cria_anuncio(request, pk, tipo):
     # Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
     ads = Ad.objects.filter(material=pk)
     print(ads)
@@ -37,7 +38,12 @@ def cria_anuncio(request, pk):
             messages.error(request, 'Este material foi removido')
             return redirect('home')
         if(request.method == 'GET'):
-            form = AdVendaForm()
+            if(tipo == 0):
+                form = AdVendaForm()
+            elif(tipo == 1):
+                form = AdDoacaoForm()
+            else:
+                form = AdEmprestimoForm()
             return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
         elif(request.method == 'POST'):
             form = AdVendaForm(request.POST)
@@ -45,7 +51,7 @@ def cria_anuncio(request, pk):
             if form.is_valid():
                 ad = form.save(commit=False)
                 ad.material = material
-                ad.ad_type = 0
+                ad.ad_type = tipo
                 ad.save()
                 messages.success(request, 'Anúncio criado com sucesso!!')
     else:
@@ -68,7 +74,7 @@ def venda(request,  pk):
         solicitacao = Request.objects.create(ad=anuncio, user=request.user)
         messages.success(
             request, 'Solicitação enviada com sucesso')
-    return redirect('home')
+    return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
 
 def emprestimo(request,  pk):

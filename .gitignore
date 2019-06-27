@@ -1,6 +1,7 @@
 virtualenv/
 static/images/*
 venv/
+myvenv/
 .vscode/
 *.sqlite3
 *.log

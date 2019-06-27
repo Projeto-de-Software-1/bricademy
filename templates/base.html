@@ -2,78 +2,76 @@
 {% load staticfiles %}
 
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!--Materialize css-->
-    <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/app.css' %}" />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
-    {% block head %} {% endblock %}
-    <title>{% block title %} {% endblock %}</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!--Materialize css-->
+  <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/app.css' %}" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+  {% block head %} {% endblock %}
+  <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+  <main>
     <nav>
       <div class="nav-wrapper">
-          
+
         {% if user.is_authenticated %}
-          
-          Olá, {{user.get_username}}!
-          <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+
+        Olá, {{user.get_username}}!
+        <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
         {% endif %}
         <ul class="right hide-on-med-and-down">
           {% if not user.is_authenticated %}
-            <li>
-                  <input id="search" type="search" required>
-            </li>
-             <li>
-                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                  <i class="material-icons">close</i>
-            </li>
-            <li>
-              <a href="{% url 'users:login' %}"><i class="material-icons right">account_circle </i>Entrar</a>
-            </li>
-            <li>
-              <a href="{% url 'users:signup' %}"><i class="material-icons right">person_add</i>Criar Conta</a>
-            </li>
+          <li>
+            <input id="search" type="search" required>
+          </li>
+          <li>
+            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+            <i class="material-icons">close</i>
+          </li>
+          <li>
+            <a href="{% url 'users:login' %}"><i class="material-icons right">account_circle </i>Entrar</a>
+          </li>
+          <li>
+            <a href="{% url 'users:signup' %}"><i class="material-icons right">person_add</i>Criar Conta</a>
+          </li>
 
 
           {% else %}
-            <li>
-                <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
-            </li>
-            <li>
-              <a href="{% url 'users:logout' %}"><i class="material-icons right">exit_to_app</i>Sair</a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-        <ul class="sidenav" id="mobile-demo">
-          {% if not user.is_authenticated %}
           <li>
-            <a href="{% url 'users:login' %}"
-              ><i class="material-icons left">account_circle </i>Entrar</a
-            >
+            <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
           </li>
           <li>
-            <a href="{% url 'users:signup' %}"
-              ><i class="material-icons left">person_add</i>Criar Conta</a
-            >
-          </li>
-          {% else %}
-          <li>
-            <a href="{% url 'users:logout' %}"
-              ><i class="material-icons left">exit_to_app</i>Sair
-            </a>
+            <a href="{% url 'users:logout' %}"><i class="material-icons right">exit_to_app</i>Sair</a>
           </li>
           {% endif %}
         </ul>
       </div>
     </nav>
-   
+    <ul class="sidenav" id="mobile-demo">
+      {% if not user.is_authenticated %}
+      <li>
+        <a href="{% url 'users:login' %}"><i class="material-icons left">account_circle </i>Entrar</a>
+      </li>
+      <li>
+        <a href="{% url 'users:signup' %}"><i class="material-icons left">person_add</i>Criar Conta</a>
+      </li>
+      {% else %}
+      <li>
+        <a href="{% url 'users:logout' %}"><i class="material-icons left">exit_to_app</i>Sair
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+    </div>
+    </nav>
+
     <div class="row">
 
       <div class="col s12 m12 l12">
@@ -83,58 +81,82 @@
               <div class="background">
                 <img src="https://materializecss.com/images/office.jpg" />
               </div>
-              <a href="#user"
-                ><img
-                  class="circle"
-                  src="{{user.profile.avatar.url}}"
-              /></a>
+              <a href="#user"><img class="circle" src="{{user.profile.avatar.url}}" /></a>
               <a href="#name"><span class="white-text name">{{user.get_full_name}}</span></a>
-              <a href="#email"
-                ><span class="white-text email">{{user.email}}</span></a
-              >
+              <a href="#email"><span class="white-text email">{{user.email}}</span></a>
             </div>
           </li>
           <li>
-              <a href="{% url 'home' %}"><i class="material-icons left">home</i>Início</a>
-            </li>
+            <a href="{% url 'home' %}"><i class="material-icons left">home</i>Início</a>
+          </li>
           <li>
             <a href="{% url 'users:perfil' %}"><i class="material-icons">person</i>Perfil</a>
           </li>
-          <li><a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materiais</a></li>
-          <li><div class="divider"></div></li>
+          <li><a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materiais</a>
+          </li>
+          <li>
+            <div class="divider"></div>
+          </li>
           <li><a class="subheader"></a>
           </li>
-          <li><a class="waves-effect" href="{% url 'users:logout' %}"><i class="material-icons">exit_to_app</i>Sair</a></li>
+          <li><a class="waves-effect" href="{% url 'users:logout' %}"><i class="material-icons">exit_to_app</i>Sair</a>
+          </li>
         </ul>
 
       </div>
-        <div class="container">
-                {% block content %} {% endblock %}
-          </div>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <!-- Jquery -->
-    <script
-      type="text/javascript"
-      src="{% static 'js/jquery-3.4.1.min.js' %}"
-    ></script>
+      <div class="container">
+        {% block content %} {% endblock %}
+      </div>
+  </main>
 
-    <!--Materialize javascript-->
-    <script
-      type="text/javascript"
-      src="{% static 'js/materialize.min.js' %}"
-    ></script>
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Sobre o Bricademy</h5>
+          <p class="grey-text text-lighten-4">O Bricademy é uma aplicação web que permite aos usuários disponibilizarem
+            a mídia física de materiais acadêmicos para venda, doação ou empréstimo, e permite usuários cadastrados no
+            sistema solicitarem os mesmos. O sistema conta com um acervo composto pelos anúncios dos usuários que
+            poderá ser explorado por qualquer usuário. Dessa forma a realização de trocas e vendas de publicações pode
+            ser feita de maneira rápida e segura entre pessoa de diversas regiões do país, através de uma interface
+            simples e intuitiva.
+          </p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Criadores</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="https://github.com/anaveroneze">Ana Veroneze</a></li>
+            <li><a class="grey-text text-lighten-3" href="https://github.com/ClaitonDenardi">Claiton Denardi</a></li>
+            <li><a class="grey-text text-lighten-3" href="https://github.com/doyleSM">Gabriel Doyle</a></li>
+            <li><a class="grey-text text-lighten-3" href="https://github.com/jcamaral">Juliano Cesar Colling</a></li>
+            <li><a class="grey-text text-lighten-3" href="https://github.com/odcmello">Otávio Mello</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        Bricacademy © 2019 All Rights Reserved
+      </div>
+    </div>
+  </footer>
 
-    <!--Js da aplicação-->
-    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
- 
-      {% for message in messages %}
-      <script>
-        M.toast({html: "{{ message }}", classes: '{{message.tags}} rounded' })
-      </script>
-      {% endfor %}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- Jquery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 
-  </body>
+  <!--Materialize javascript-->
+  <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
+  <!--Js da aplicação-->
+  <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
+  {% for message in messages %}
+  <script>
+    M.toast({ html: "{{ message }}", classes: '{{message.tags}} rounded' })
+  </script>
+  {% endfor %}
+
+</body>
+
 </html>

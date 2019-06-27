@@ -26,11 +26,20 @@
         <ul class="right hide-on-med-and-down">
           {% if not user.is_authenticated %}
             <li>
+                  <input id="search" type="search" required>
+            </li>
+             <li>
+                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  <i class="material-icons">close</i>
+            </li>
+            <li>
               <a href="{% url 'users:login' %}"><i class="material-icons right">account_circle </i>Entrar</a>
             </li>
             <li>
               <a href="{% url 'users:signup' %}"><i class="material-icons right">person_add</i>Criar Conta</a>
             </li>
+
+
           {% else %}
             <li>
                 <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>

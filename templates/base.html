@@ -4,6 +4,7 @@
 <html lang="pt-br">
 
 <head>
+  <link rel="icon" href="{% static 'images/ICO.png' %}" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -19,6 +20,8 @@
 <body>
   <main>
     <nav>
+      <img class="responsive-img left" style="width:180px; margin-left: 20px"
+        src="{% static 'images/BRICADEMY.png' %}" />
       <div class="nav-wrapper">
 
         {% if user.is_authenticated %}
@@ -28,16 +31,23 @@
         {% endif %}
         <ul class="right hide-on-med-and-down">
           <li>
-              <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
+            <form id="navbarsearch">
+              <div class="navfix">
+                <div id="navfix2">
+                  <div class="input-field">
+                    <input id="search" type="search" placeholder="Buscando algo?"
+                      onfocus="this.placeholder='Digite o nome da publicação...'"
+                      onfocusout="this.placeholder='Buscando algo?'">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </li>
+          <li>
+            <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
           </li>
           {% if not user.is_authenticated %}
-          <li>
-            <input id="search" type="search" required>
-          </li>
-          <li>
-            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-            <i class="material-icons">close</i>
-          </li>
           <li>
             <a href="{% url 'users:login' %}"><i class="material-icons right">account_circle </i>Entrar</a>
           </li>
@@ -96,11 +106,13 @@
             <a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materiais</a>
           </li>
           <li>
-              <a href="{% url 'materials:solicitacoes_recebidas' %}"><i class="material-icons">library_books</i>Solicitações recebidas</a>
+            <a href="{% url 'materials:solicitacoes_recebidas' %}"><i
+                class="material-icons">library_books</i>Solicitações recebidas</a>
           </li>
           <li>
-                <a href="{% url 'materials:minhas_solicitacoes' %}"><i class="material-icons">library_books</i>Minhas solicitações</a>
-              </li>
+            <a href="{% url 'materials:minhas_solicitacoes' %}"><i class="material-icons">library_books</i>Minhas
+              solicitações</a>
+          </li>
           <li>
             <div class="divider"></div>
           </li>
@@ -163,6 +175,35 @@
     M.toast({ html: "{{ message }}", classes: '{{message.tags}} rounded' })
   </script>
   {% endfor %}
+
+  <script>
+    $(document).ready(function () {
+      var trig = 1;
+      $('#search').click(function (e) {
+        if (trig == 1) {
+          $('#navfix2').animate({
+            width: '+=55',
+            marginRight: 0
+          }, 400);
+          trig++;
+        }
+      });
+      $("#search").focusout(function () {
+        $('#navfix2').animate({
+          width: '-=55'
+        }, 400);
+        trig = trig - 1;
+      });
+      $(".dropdown-trigger").dropdown({
+        hover: true,
+        coverTrigger: false,
+        alignment: 'center',
+        constrainWidth: false,
+      });
+      var pageUrl = window.location.pathname.split("/").pop();
+      var target = $('nav a[href="' + pageUrl + '"]').parent().addClass('active');
+    });
+  </script>
 
 </body>
 

@@ -1,5 +1,6 @@
 virtualenv/
-static/images/*
+static/images/materials
+static/images/users
 venv/
 myvenv/
 .vscode/

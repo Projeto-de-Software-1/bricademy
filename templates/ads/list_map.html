@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css"
+  type="text/css"
+/>
+
+<div id="map" style="width: 100%; height:500px;"></div>
+<script>
+    navigator.geolocation.getCurrentPosition(function(position) {
+      mapboxgl.accessToken = "{{ token }}";
+      var map = new mapboxgl.Map({
+        container: "map", // Container ID
+        style: "mapbox://styles/mapbox/navigation-guidance-day-v2",
+
+        center: [position.coords.longitude, position.coords.latitude], // Starting position [lng, lat]
+        zoom: 13 // Starting zoom level
+      });
+      var geojson = {
+        type: "FeatureCollection",
+        features: [
+        {% for anuncio in anuncios %}
+        {
+            type: "Feature",
+            properties: {
+              message: "Foo",
+              title: "{{anuncio.material.title}}",
+              id: {{anuncio.pk}},
+              tipoAnuncio: "{{anuncio.get_ad_type_display}}",
+              iconSize: [20, 20],
+              tipo: {{anuncio.material.category}},
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [{{anuncio.longitude}}, {{anuncio.latitude}}],
+            }
+          },
+          {% endfor %}
+        ]
+      };
+      geojson.features.forEach(function(marker) {
+        // create a DOM element for the marker
+        var el = document.createElement("div");
+        el.className = "marker";
+        console.log(el);
+        if(marker.properties.tipo === 0){
+          el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
+        }else{
+          el.style.backgroundImage = "url(http://localhost:8000/static/images/map/revista.svg)";
+        }
+        el.style.width = marker.properties.iconSize[0] + "px";
+        el.style.height = marker.properties.iconSize[1] + "px";
+
+
+
+        // add marker to map
+        new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+  .setHTML('<strong>' + marker.properties.title + '</strong><p><a href=\"http:localhost:8000/detalhes/'+marker.properties.id +"\">" + marker.properties.tipoAnuncio + '</a></p>')).addTo(map);});
+      // Create a popup, but don't add it to the map yet.
+      var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+      });
+
+      map.on("mouseenter", "places", function(e) {
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = "pointer";
+
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties.description;
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup
+          .setLngLat(coordinates)
+          .setHTML(description)
+          .addTo(map);
+      });
+    });
+</script>
+{% endblock %}

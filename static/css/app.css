@@ -52,3 +52,7 @@
 .black-overlay {
   background-color: rgba(0, 0, 0, 0.42) !important;
 }
+
+.dropdown-content li > a, .dropdown-content li > span{
+  color: #000;
+}

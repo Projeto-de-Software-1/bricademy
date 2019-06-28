@@ -34,60 +34,52 @@
 
   <h4 class="center">Materiais em Venda</h4>
   <hr>
+
   {% for material in materiais %}
-  {% if material.1 == 0 %}
-  <div class="col m3">
-    <div class="card large">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="static/images/{{ material.0.image }}" alt="img">
-      </div>
-      <div class="card-content">
-        <span class="card-title center">
-          <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
-        </span>
-        {% if user.is_authenticated %}
-        {% if material.0.user.pk == user.pk %}
-        <center>
-          <div class="card-action">Este material é seu.</div>
-        </center>
-        {% else %}
-        <center>
-          <div class="card-action">
-            <a href="{% url 'ads:venda_url' material.0.pk %}" class="btn btn-primary" role="button">Comprar</a>
-          </div>
-        </center>
-        {% endif%}
-        {% else %}
-        <center>
-          <div class="card-action">
-            <a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Comprar</a>
-          </div>
-        </center>
-        {% endif %}
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
-        <span class="card-title grey-text text-darken-4"><b>{{ material.0.title }}</b></span>
-        <hr>
-        <p><b>Autor:</b> {{ material.0.author }}<br>
-          <b>ISBN:</b> {{ material.0.ISBN }}<br>
-          <b>Editora:</b> {{ material.0.publishing_company }}<br>
-          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br>
-          <b>Tipo:</b> {{ material.0.get_category_display }}<br>
-          <b>Assuntos:</b> {% for subject in material.0.subject.all %}
-          {{ subject }}, {% endfor %}
-        </p>
+    {% if material.1 == 0 %}
+    <div class="col m3">
+      <div class="card large">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="static/images/{{ material.0.image }}" alt="img">
+        </div>
+        <div class="card-content">
+          <span class="card-title center">
+            <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
+          </span>
+
+          <center>
+              <div class="card-action">
+                <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
+              </div>
+          </center>
+        </div>
+
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
+          <span class="card-title grey-text text-darken-4"><b>{{ material.0.title }}</b></span>
+          <hr>
+          <p><b>Autor:</b> {{ material.0.author }}<br>
+            <b>ISBN:</b> {{ material.0.ISBN }}<br>
+            <b>Editora:</b> {{ material.0.publishing_company }}<br>
+            <b>Conservação:</b> {{ material.0.get_conservation_display }}<br>
+            <b>Tipo:</b> {{ material.0.get_category_display }}<br>
+            <b>Assuntos:</b> {% for subject in material.0.subject.all %}
+            {{ subject }}, {% endfor %}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  {% endif %}
+    {% endif %}
   {% endfor %}
+
 
 </div>
 <div class="fixed-action-btn">
   <a href="{% url "materials:new_material" %}" class="btn-floating btn-large red tooltipped" data-position="bottom"
     data-tooltip="Novo material"> <i class="large material-icons">add</i></a>
 </div>
+
+
 
 <div class="row">
   <h4 class="center">Materiais em Doação</h4>
@@ -103,26 +95,11 @@
         <span class="card-title center">
           <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
         </span>
-        {% if user.is_authenticated %}
-        {% if material.0.user.pk == user.pk %}
         <center>
-          <div class="card-action">Este material é seu.</div>
+            <div class="card-action">
+              <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
+            </div>
         </center>
-        {% else %}
-
-        <center>
-          <div class="card-action"><a href="{% url 'ads:doacao_url' material.0.pk %}" class="btn btn-primary"
-              role="button">Adquirir</a>
-          </div>
-        </center>
-        {% endif%}
-        {% else %}
-
-        <center>
-          <div class="card-action"><a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Comprar</a>
-          </div>
-        </center>
-        {% endif %}
       </div>
       <div class="card-reveal">
         <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
@@ -163,22 +140,11 @@
         <span class="card-title center">
           <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
         </span>
-        {% if user.is_authenticated %}
-        {% if material.0.user.pk == user.pk %}
         <center>
-          <div class="card-action">Este material é seu.</div>
+            <div class="card-action">
+              <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
+            </div>
         </center>
-        {% else %}
-        <center>
-          <div class="card-action"><a href="{% url 'ads:emprestimo_url' material.0.pk %}" class="btn btn-primary"
-              role="button">Alugar</div></a>
-        </center>
-        {% endif%}
-        {% else %}
-        <center>
-          <div class="card-action"><a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Comprar</a>
-        </center>
-        {% endif %}
       </div>
       <div class="card-reveal">
         <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>

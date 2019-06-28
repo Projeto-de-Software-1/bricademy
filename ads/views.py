@@ -27,9 +27,7 @@ def index(request):
 def cria_anuncio(request, pk, tipo):
     # Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
     ads = Ad.objects.filter(material=pk)
-    print(ads)
     if not ads:
-        print("Material NAO anunciado")
         material = get_object_or_404(Material, pk=pk)
         if(material.user != request.user):
             messages.error(request, 'Este material não lhe pertence')
@@ -60,7 +58,17 @@ def cria_anuncio(request, pk, tipo):
     return redirect('home')
 
 
-def venda(request,  pk):
+#recebe o tipo de anuncio e o id do material
+def vermais(request, tipo, pk):
+    anuncio = get_object_or_404(Ad, material_id=pk)
+
+    if(anuncio.deleted == 1):
+        messages.error(request, 'Este anuncio foi removido pelo dono')
+        return redirect('home')
+
+    return render(request, 'ads/vermais.html', {'material': anuncio.material, 'anuncio': anuncio, 'tipo': tipo, 'token': settings.MAPBOX_TOKEN})
+
+def venda(request,  anuncio, pk):
     anuncio = get_object_or_404(Ad, material_id=pk)
     if(anuncio.deleted == 1):
         messages.error(request, 'Este anuncio foi removido pelo dono')
@@ -77,9 +85,9 @@ def venda(request,  pk):
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
 
-def emprestimo(request,  pk):
+def emprestimo(request, anuncio, pk):
     return redirect('home')
 
 
-def doacao(request,  pk):
+def doacao(request, anuncio, pk):
     return redirect('home')

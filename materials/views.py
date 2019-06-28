@@ -63,3 +63,11 @@ def ListMaterials(request):
 def ad_teste(request):
     ad = Ad.objects.first()
     print(ad.material.user.id)
+
+def minhasSolicitacoes(request):
+    materials = []
+    return render(request, 'materials/minhas_solicitacoes.html',  {'materials': materials})
+
+def solicitacoesRecebidas(request):
+    materials = []
+    return render(request, 'materials/solicitacoes_recebidas.html',  {'materials': materials})

@@ -1,48 +1,99 @@
 {% extends 'base.html' %} {% load static %} 
-{% block title %} Novo ad {% endblock %}
-{% block content %}
+{% block title %} Ver mais {% endblock %} {% block content %}
 
+{% if tipo == 0 %}
+
+    <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2><h4>${{anuncio.price}}</h4></b></span>
+    <hr>
+    <p><b>Autor:</b> {{ material.author }}<br>
+        <b>ISBN:</b> {{ material.ISBN }}<br>
+        <b>Editora:</b> {{ material.publishing_company }}<br>
+        <b>Conservação:</b> {{ material.get_conservation_display }}<br>
+        <b>Tipo:</b> {{ material.get_category_display }}<br>
+        <b>Assuntos:</b> {% for subject in material.subject.all %}
+        {{ subject }}, {% endfor %}
+    </p>
+    </div>
+
+    {% if material.user.pk == user.pk %}
+      <center>
+          <b>Este material é seu.</b>
+      </center>
+    {% else %}
+      {% if user.is_authenticated %}
+          <center>
+              <div class="card-action"><a href="{% url 'ads:venda_url' anuncio.pk material.pk %}" class="btn btn-primary"
+                  role="button">Comprar</a>
+              </div>
+          </center>
+      {% else %}
+          <center>
+              <div class="card-action">
+                <a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Comprar</a>
+              </div>
+          </center>
+      {% endif %}
+    {% endif %}
+
+{% elif tipo == 1 %}
+    ver que campos mostrar de material para doação
+
+    {% if material.user.pk == user.pk %}
+      <center>
+          <b>Este material é seu.</b>
+      </center>
+      {% else %}
+        {% if user.is_authenticated %}
+          <center>
+              <div class="card-action"><a href="{% url 'ads:venda_url' anuncio.pk material.pk %}" class="btn btn-primary"
+                  role="button">Adquirir</a>
+              </div>
+          </center>
+        {% else %}
+          <center>
+              <div class="card-action">
+                <a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Adquirir</a>
+              </div>
+          </center>
+        {% endif %}
+    {% endif %}
+
+{% else %}
+    ver que campos mostrar de material para emprestimo
+    {% if material.user.pk == user.pk %}
+      <center>
+          <b>Este material é seu.</b>
+      </center>
+    {% else %}
+      {% if user.is_authenticated %}
+      <center>
+          <div class="card-action"><a href="{% url 'ads:venda_url' anuncio.pk material.pk %}" class="btn btn-primary"
+              role="button">Solicitar empréstimo</a>
+          </div>
+      </center>
+      {% else %}
+          <center>
+              <div class="card-action">
+                <a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Solicitar empréstimo</a>
+              </div>
+          </center>
+        {% endif %}
+    {% endif %}
+
+{% endif %}
+
+<hr>
+<h4>Ver no mapa:</h4>
+Endereço: {{anuncio.address}}
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
 <link
   rel="stylesheet"
   href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css"
   type="text/css"
 />
-<div class="container">
-  <div class="card-panel">
-    <div class="card-content">
-      <h4 class="header">Material - Anúncio</h4>
-    </div>
-    <form method="post">
-      {% csrf_token %}
-      <p>
-        <label for="id_price">Price:</label>
-        <input type="number" name="price" required id="id_price" step="0.01" />
-      </p>
-      <p>
-        <label for="id_address">Endereço:</label>
-        <input
-          readonly
-          type="text"
-          name="address"
-          required
-          id="id_address"
-          maxlength="200"
-        /><input type="hidden" name="latitude" id="id_latitude" /><input
-          type="hidden"
-          name="longitude"
-          id="id_longitude"
-        />
-      </p>
-      <button class="btn waves-effect waves-light green" type="submit">
-        <i class="material-icons right">send</i>Cadastrar
-      </button>
-    </form>
-    <a href="/materials/list" class="btn grey lighten-1">Cancelar</a>
 
-    <br />
-    <br />
-    <div id="map" style="height: 500px;"></div>
+<div id="map" style="height: 500px;"></div>
 
     <script>
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -204,6 +255,6 @@
         });
       });
     </script>
-  </div>
-</div>
+
+
 {% endblock %}

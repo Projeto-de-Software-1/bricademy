@@ -27,6 +27,9 @@
         <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
         {% endif %}
         <ul class="right hide-on-med-and-down">
+          <li>
+              <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
+          </li>
           {% if not user.is_authenticated %}
           <li>
             <input id="search" type="search" required>
@@ -44,9 +47,6 @@
 
 
           {% else %}
-          <li>
-            <a href="{% url 'home' %}"><i class="material-icons right">home</i>Início</a>
-          </li>
           <li>
             <a href="{% url 'users:logout' %}"><i class="material-icons right">exit_to_app</i>Sair</a>
           </li>
@@ -92,8 +92,15 @@
           <li>
             <a href="{% url 'users:perfil' %}"><i class="material-icons">person</i>Perfil</a>
           </li>
-          <li><a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materiais</a>
+          <li>
+            <a href="{% url 'materials:list_material' %}"><i class="material-icons">library_books</i>Materiais</a>
           </li>
+          <li>
+              <a href="{% url 'materials:solicitacoes_recebidas' %}"><i class="material-icons">library_books</i>Solicitações recebidas</a>
+          </li>
+          <li>
+                <a href="{% url 'materials:minhas_solicitacoes' %}"><i class="material-icons">library_books</i>Minhas solicitações</a>
+              </li>
           <li>
             <div class="divider"></div>
           </li>

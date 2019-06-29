@@ -1,16 +1,49 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-
+{% extends 'base.html' %} {% load static %} {% block content %} {% block head %}
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
 <link
   rel="stylesheet"
   href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css"
   type="text/css"
 />
+{% endblock head %}
 
+<style>
+  .filter-ctrl {
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    width: 180px;
+  }
+
+  .filter-ctrl input[type="text"] {
+    font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    width: 100%;
+    border: 0;
+    background-color: #fff;
+    height: 40px;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+</style>
+<div class="filter-ctrl">
+  <input
+    id="filter-input"
+    type="text"
+    name="filter"
+    placeholder="Buscar por título"
+  />
+</div>
 <div id="map" style="width: 100%; height:500px;"></div>
+
 <script>
     navigator.geolocation.getCurrentPosition(function(position) {
       mapboxgl.accessToken = "{{ token }}";
+      var MarkFilter = []; // Will contain a list used to filter against.
+      var AllMarks = [];
+      var filterInput = document.getElementById('filter-input');
       var map = new mapboxgl.Map({
         container: "map", // Container ID
         style: "mapbox://styles/mapbox/navigation-guidance-day-v2",
@@ -18,16 +51,27 @@
         center: [position.coords.longitude, position.coords.latitude], // Starting position [lng, lat]
         zoom: 13 // Starting zoom level
       });
+
+
+      map.addControl(new mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+      },
+        trackUserLocation: true
+      }));
+
       var geojson = {
+        id: "places",
         type: "FeatureCollection",
         features: [
         {% for anuncio in anuncios %}
         {
             type: "Feature",
             properties: {
-              message: "Foo",
+              adType: {{anuncio.ad_type}},
               title: "{{anuncio.material.title}}",
               id: {{anuncio.pk}},
+              idMat: {{anuncio.material.id}},
               tipoAnuncio: "{{anuncio.get_ad_type_display}}",
               iconSize: [20, 20],
               tipo: {{anuncio.material.category}},
@@ -40,31 +84,30 @@
           {% endfor %}
         ]
       };
+
+
+
       geojson.features.forEach(function(marker) {
         // create a DOM element for the marker
         var el = document.createElement("div");
         el.className = "marker";
-        console.log(el);
-        if(marker.properties.tipo === 0){
-          el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
-        }else{
-          el.style.backgroundImage = "url(http://localhost:8000/static/images/map/revista.svg)";
-        }
+        el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
+
         el.style.width = marker.properties.iconSize[0] + "px";
         el.style.height = marker.properties.iconSize[1] + "px";
-
-
-
+        marker.el = el;
+        AllMarks.push(marker);
         // add marker to map
         new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-  .setHTML('<strong>' + marker.properties.title + '</strong><p><a href=\"http:localhost:8000/detalhes/'+marker.properties.id +"\">" + marker.properties.tipoAnuncio + '</a></p>')).addTo(map);});
-      // Create a popup, but don't add it to the map yet.
+        .setHTML('<b>Título</b>: ' + marker.properties.title + '<p><b>Tipo: </b>'+ marker.properties.tipoAnuncio +  '</p><p><a href=\"/ads/vermais/'+marker.properties.adType+'/'+marker.properties.idMat +"\">" + "<span class='badge red white-text'>Ver mais</span>" + '</a></p>')).addTo(map);});      // Create a popup, but don't add it to the map yet.
+
+
       var popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false
       });
 
-      map.on("mouseenter", "places", function(e) {
+      map.on("load", "places", function(e) {
         // Change the cursor style as a UI indicator.
         map.getCanvas().style.cursor = "pointer";
 
@@ -85,6 +128,34 @@
           .setHTML(description)
           .addTo(map);
       });
+      filterInput.addEventListener('keyup', function(e) {
+      var value = e.target.value.trim();
+      console.log(value);
+      AllMarks.forEach(function(marker) {
+        if(!(marker.properties.title.indexOf(value) !== -1)){
+          //MarkFilter.push(marker);
+          //se a marca nao tiver nada com o texto digitado remove
+          var removeIndex = geojson.features.map(function(item) { return item.id; }).indexOf(marker.id);
+          AllMarks.splice(removeIndex, 1);
+          marker.el.remove();
+        }else{
+          //if(!(AllMarks.includes(marker))){
+        //   var el = document.createElement("div");
+        //   el.className = "marker";
+        //   el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
+
+        //   el.style.width = marker.properties.iconSize[0] + "px";
+        //   el.style.height = marker.properties.iconSize[1] + "px";
+
+        //   marker.el = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+        // .setHTML('<b>Título</b>: ' + marker.properties.title + '<p><b>Tipo: </b>'+ marker.properties.tipoAnuncio +  '</p><p><a href=\"/ads/vermais/'+marker.properties.adType+'/'+marker.properties.idMat +"\">" + "<span class='badge red white-text'>Ver mais</span>" + '</a></p>'));
+        //   marker.el.addTo(map);
+        //   AllMarks.push(marker);
+        //  // }
+        }
+    });
+    //console.log('all', AllMarks);
+  });
     });
 </script>
 {% endblock %}

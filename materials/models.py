@@ -13,18 +13,18 @@ class Subject(models.Model):
 
 class Material(models.Model):
     CONSERVATION_CHOICES = [
-        (0, 'NOVO'),
-        (1, 'POUCO USADO'),
-        (2, 'USADO'),
-        (3, 'MUITO USADO')
+        (0, 'Novo'),
+        (1, 'Pouco usado'),
+        (2, 'Usado'),
+        (3, 'Muito usado')
     ]
     CATEGORY_CHOICES = [
-        (0, 'LIVRO'),
-        (1, 'TESE'),
-        (2, 'REVISTA'),
-        (3, 'ARTIGO'),
-        (4, 'RESUMO'),
-        (5, 'OUTRO')
+        (0, 'Livro'),
+        (1, 'Tese'),
+        (2, 'Revista'),
+        (3, 'Artigo'),
+        (4, 'Resumo'),
+        (5, 'Outro')
     ]
     title = models.CharField('Título', max_length=50)
     author = models.CharField('Autor', max_length=50)
@@ -50,9 +50,9 @@ class Material(models.Model):
 
 class Ad(models.Model):
     TYPE_CHOICES = [
-        (0, 'VENDA'),
-        (1, 'DOAÇÃO'),
-        (2, 'EMPRÉSTIMO')
+        (0, 'Venda'),
+        (1, 'Doação'),
+        (2, 'Empréstimo')
     ]
 
     duration = models.IntegerField(null=True, blank=True)

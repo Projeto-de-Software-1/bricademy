@@ -16,9 +16,9 @@ def index(request):
     material = []
     tipos = []
     for ad in anuncios:
-        if(ad.deleted == 0):
-            material.append(ad.material)
-            tipos.append(ad.ad_type)
+        print("OIOIEOSJOSDF\nsdoifjsdoif")
+        material.append(ad.material)
+        tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
     todos.sort(key=lambda x:x[0])
     return render(request, 'home.html', {'materiais': todos})
@@ -45,7 +45,9 @@ def cria_anuncio(request, pk, tipo):
             return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
         elif(request.method == 'POST'):
             form = AdVendaForm(request.POST)
-            print(form)
+            if not form.data['address']:
+                messages.error(request, 'Selecione um endereço para o anúncio')
+                return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
             if form.is_valid():
                 ad = form.save(commit=False)
                 ad.material = material

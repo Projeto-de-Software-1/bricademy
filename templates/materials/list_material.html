@@ -2,41 +2,37 @@
 {% block title %} Materiais {% endblock %} {% block content %}
 
 <div class="row">
+  
   {% for material in materials %}
-  <div class="card col m4">
-    <div class="card-image">
-      <img src="{{ material.image.url }}" alt="img">
-      <a href="{% url 'ads:ad_url' material.pk 0 %}" class="btn-floating btn-large waves-effect waves-light green" title="Vender"><i class="material-icons">attach_money</i></a>
-      <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn-floating btn-large waves-effect waves-light green" title="Emprestar"><i class="material-icons">history</i></a>
-      <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn-floating btn-large waves-effect waves-light green" title="Doar"><i class="material-icons">loyalty</i></a>
-      <a href="{% url 'materials:edit_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Editar"><i class="material-icons">edit</i></a>
-      <a href="{% url 'materials:edit_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Excluir"><i class="material-icons">delete</i></a>
-      <!--
-      <a href="{% url 'materials:edit_material' material.pk %}" class="btn btn-primary" role="button">Editar</a>
-
-      <a href="{% url 'ads:ad_url' material.pk 0 %}" class="btn btn-primary red" role="button">Venda</a><br>
-      <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn btn-primary red" role="button">Empréstimo</a><br>
-      <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn btn-primary red" role="button">Doação</a><br>
--->
-
-    </div>
-          
-    <div class="card-content">
-      <span class="card-title">{{ material.title }}</span>
-
-      <p>Autor: {{ material.author }}</p>
-      <p>ISBN: {{ material.ISBN }}</p>
-      <p>Editora: {{ material.publishing_company }}</p>
-      <p>Estado de conservação: {{ material.get_conservation_display }}</p>
-      <p>Tipo: {{ material.get_category_display }}</p>
-      <p>
-        Assuntos: {% for subject in material.subject.all %}{{ subject }}, 
-        {% endfor %}
-      </p>
-      <p>Criação: {{ material.created_at }}</p>
-
-    </div>
-  </div>
+    <div class="card col m4">
+      <div class="card-image">
+        <img src="{{ material.image.url }}" alt="img">
+        <a href="{% url 'ads:ad_url' material.pk 0 %}" class="btn-floating btn-large waves-effect waves-light green" title="Vender"><i class="material-icons">attach_money</i></a>
+        <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn-floating btn-large waves-effect waves-light green" title="Emprestar"><i class="material-icons">history</i></a>
+        <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn-floating btn-large waves-effect waves-light green" title="Doar"><i class="material-icons">loyalty</i></a>
+        <a href="{% url 'materials:edit_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Editar"><i class="material-icons">edit</i></a>
+        <a href="{% url 'materials:edit_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Excluir"><i class="material-icons">delete</i></a>  
+      </div>
+      <div class="card-content">
+          <span class="card-title">{{ material.title }}</span>
+      {% for ad in anunciados %}
+        {% if ad.pk == material.pk %}
+          <center><b>ANUNCIADO</b></center>
+        {% endif %}
+      {% endfor %}              
+          <p>Autor: {{ material.author }}</p>
+          <p>ISBN: {{ material.ISBN }}</p>
+          <p>Editora: {{ material.publishing_company }}</p>
+          <p>Estado de conservação: {{ material.get_conservation_display }}</p>
+          <p>Tipo: {{ material.get_category_display }}</p>
+          <p>
+            Assuntos: {% for subject in material.subject.all %}{{ subject }}, 
+            {% endfor %}
+          </p>
+          <p>Criação: {{ material.created_at }}</p>
+  
+        </div>
+      </div>
   {% endfor %}
 
 </div>

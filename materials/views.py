@@ -13,9 +13,9 @@ def newMaterial(request):
             form.instance.user = request.user
             form.save()
             messages.success(request, 'Material cadastrado!')
-            messages.warning(request, 'exemplo Aviso!')
-            messages.error(request, 'exemplo Erro!')
-            messages.info(request, 'exemplo Info!')
+            # messages.warning(request, 'exemplo Aviso!')
+            # messages.error(request, 'exemplo Erro!')
+            # messages.info(request, 'exemplo Info!')
             return redirect("materials:list_material")
         else:
             messages.warning(request, 'Erro no cadastro')
@@ -56,8 +56,14 @@ def editMaterial(request, pk):
 
 def ListMaterials(request):
     materials = Material.objects.filter(user=request.user, deleted=0)
+    anuncios = Ad.objects.all()
+    anunciados = []
+    for ad in anuncios:
+        for m in materials:
+            if m.pk == ad.material.pk:
+                anunciados.append(ad.material)
 
-    return render(request, 'materials/list_material.html',  {'materials': materials})
+    return render(request, 'materials/list_material.html',  {'materials': materials, 'anunciados':anunciados})
 
 
 def ad_teste(request):

@@ -4,6 +4,7 @@ from django.http import HttpResponseNotFound
 from .forms import AdVendaForm, AdDoacaoForm, AdEmprestimoForm
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -20,10 +21,11 @@ def index(request):
         material.append(ad.material)
         tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
-    todos.sort(key=lambda x:x[0])
+    todos.sort(key=lambda x: x[0])
     return render(request, 'home.html', {'materiais': todos})
 
 
+@login_required
 def cria_anuncio(request, pk, tipo):
     # Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
     ads = Ad.objects.filter(material=pk)
@@ -60,7 +62,8 @@ def cria_anuncio(request, pk, tipo):
     return redirect('home')
 
 
-#recebe o tipo de anuncio e o id do material
+# recebe o tipo de anuncio e o id do material
+@login_required
 def vermais(request, tipo, pk):
     anuncio = get_object_or_404(Ad, material_id=pk)
 
@@ -70,6 +73,8 @@ def vermais(request, tipo, pk):
 
     return render(request, 'ads/vermais.html', {'material': anuncio.material, 'anuncio': anuncio, 'tipo': tipo, 'token': settings.MAPBOX_TOKEN})
 
+
+@login_required
 def venda(request,  anuncio, pk):
     anuncio = get_object_or_404(Ad, material_id=pk)
     if(anuncio.deleted == 1):
@@ -87,9 +92,11 @@ def venda(request,  anuncio, pk):
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
 
+@login_required
 def emprestimo(request, anuncio, pk):
     return redirect('home')
 
 
+@login_required
 def doacao(request, anuncio, pk):
     return redirect('home')

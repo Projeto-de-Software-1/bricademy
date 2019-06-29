@@ -16,10 +16,10 @@
   }
 
   .filter-ctrl input[type="text"] {
-    font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font: 20px "Helvetica Neue", Arial, Helvetica, sans-serif;
     width: 100%;
     border: 0;
-    background-color: #fff;
+    background-color: #c9c9c9;
     height: 40px;
     margin: 0;
     color: rgba(0, 0, 0, 0.5);
@@ -36,6 +36,8 @@
     placeholder="Buscar por título"
   />
 </div>
+Anúncios: <input readonly id="encontrados" />
+
 <div id="map" style="width: 100%; height:500px;"></div>
 
 <script>
@@ -43,6 +45,7 @@
       mapboxgl.accessToken = "{{ token }}";
       var MarkFilter = []; // Will contain a list used to filter against.
       var AllMarks = [];
+      var label = document.getElementById("encontrados");
       var filterInput = document.getElementById('filter-input');
       var map = new mapboxgl.Map({
         container: "map", // Container ID
@@ -85,10 +88,10 @@
         ]
       };
 
-
-
+      label.value = geojson.features.length;
       geojson.features.forEach(function(marker) {
         // create a DOM element for the marker
+
         var el = document.createElement("div");
         el.className = "marker";
         el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
@@ -128,34 +131,41 @@
           .setHTML(description)
           .addTo(map);
       });
+
+
       filterInput.addEventListener('keyup', function(e) {
       var value = e.target.value.trim();
-      console.log(value);
-      AllMarks.forEach(function(marker) {
+      geojson.features.forEach(function(marker) {
         if(!(marker.properties.title.indexOf(value) !== -1)){
           //MarkFilter.push(marker);
           //se a marca nao tiver nada com o texto digitado remove
-          var removeIndex = geojson.features.map(function(item) { return item.id; }).indexOf(marker.id);
-          AllMarks.splice(removeIndex, 1);
-          marker.el.remove();
+
+          var removeIndex = AllMarks.indexOf(marker);
+          if(removeIndex > -1){
+            AllMarks.splice(removeIndex, 1);
+            marker.el.remove();
+          }
+
         }else{
-          //if(!(AllMarks.includes(marker))){
-        //   var el = document.createElement("div");
-        //   el.className = "marker";
-        //   el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
+          if(!(AllMarks.includes(marker))){
+           var el = document.createElement("div");
+           el.className = "marker";
+           el.style.backgroundImage = "url(http://localhost:8000/static/images/map/livro.svg)";
 
-        //   el.style.width = marker.properties.iconSize[0] + "px";
-        //   el.style.height = marker.properties.iconSize[1] + "px";
+           el.style.width = marker.properties.iconSize[0] + "px";
+           el.style.height = marker.properties.iconSize[1] + "px";
 
-        //   marker.el = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-        // .setHTML('<b>Título</b>: ' + marker.properties.title + '<p><b>Tipo: </b>'+ marker.properties.tipoAnuncio +  '</p><p><a href=\"/ads/vermais/'+marker.properties.adType+'/'+marker.properties.idMat +"\">" + "<span class='badge red white-text'>Ver mais</span>" + '</a></p>'));
-        //   marker.el.addTo(map);
-        //   AllMarks.push(marker);
-        //  // }
+           marker.el = new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+         .setHTML('<b>Título</b>: ' + marker.properties.title + '<p><b>Tipo: </b>'+ marker.properties.tipoAnuncio +  '</p><p><a href=\"/ads/vermais/'+marker.properties.adType+'/'+marker.properties.idMat +"\">" + "<span class='badge red white-text'>Ver mais</span>" + '</a></p>'));
+           marker.el.addTo(map);
+           AllMarks.push(marker);
+         }
         }
-    });
-    //console.log('all', AllMarks);
+      });
+      label.value = AllMarks.length;
+
   });
+
     });
 </script>
 {% endblock %}

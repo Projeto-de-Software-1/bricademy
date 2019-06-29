@@ -1,11 +1,11 @@
 {% extends 'base.html' %} {% load static %} {% block head %}
 <script src="https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css" rel="stylesheet" />
+<link
+  href="https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css"
+  rel="stylesheet"
+/>
 <link rel="stylesheet" href="{% static 'css/app.css' %}" />
-{% endblock%}
-{% block title %} Home {% endblock %}
-
-{% block content %}
+{% endblock%} {% block title %} Home {% endblock %} {% block content %}
 
 <style>
   .card-title {
@@ -17,7 +17,9 @@
     overflow: hidden;
   }
 
-  h2.ridge {border-style: ridge;}
+  h2.ridge {
+    border-style: ridge;
+  }
 
   @media screen and (max-width: 992px) {
     div {
@@ -28,167 +30,170 @@
 
 <center>
   <h2 class="ridge"><b>MATERIAIS DISPONÍVEIS</b></h2>
-</center><br>
+</center>
+<br />
 
 <div class="row">
-
   <h4 class="center">Materiais em Venda</h4>
-  <hr>
+  <hr />
 
-  {% for material in materiais %}
-    {% if material.1 == 0 %}
-    <div class="col m3">
-      <div class="card large">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" src="static/images/{{ material.0.image }}" alt="img">
-        </div>
-        <div class="card-content">
-          <span class="card-title center">
-            <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
-          </span>
-
-          <center>
-              <div class="card-action">
-                <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
-              </div>
-          </center>
-        </div>
-
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
-          <span class="card-title grey-text text-darken-4"><b>{{ material.0.title }}</b></span>
-          <hr>
-          <p><b>Autor:</b> {{ material.0.author }}<br>
-            <b>ISBN:</b> {{ material.0.ISBN }}<br>
-            <b>Editora:</b> {{ material.0.publishing_company }}<br>
-            <b>Conservação:</b> {{ material.0.get_conservation_display }}<br>
-            <b>Tipo:</b> {{ material.0.get_category_display }}<br>
-            <b>Assuntos:</b> {% for subject in material.0.subject.all %}
-            {{ subject }}, {% endfor %}
+  {% for material in materiais %} {% if material.1 == 0 %}
+  <div class="col m3">
+    <div class="card large">
+      <div class="card-image waves-effect waves-block waves-light">
+        <img
+          class="activator"
+          src="static/images/{{ material.0.image }}"
+          alt="img"
+        />
+      </div>
+      <div class="card-content">
+        <span class="card-title center">
+          <p class="flow-text truncate">
+            <b>{{ material.0.title }}</b>
           </p>
-        </div>
+        </span>
+
+        <center>
+          <div class="card-action">
+            <a
+              href="{% url 'ads:vermais_url' material.1 material.0.pk %}"
+              class="btn btn-primary"
+              role="button"
+              >Ver mais</a
+            >
+          </div>
+        </center>
+      </div>
+
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4"
+          ><b></b><i class="material-icons right">close</i></span
+        >
+        <span class="card-title grey-text text-darken-4"
+          ><b>{{ material.0.title }}</b></span
+        >
+        <hr />
+        <p>
+          <b>Autor:</b> {{ material.0.author }}<br />
+          <b>ISBN:</b> {{ material.0.ISBN }}<br />
+          <b>Editora:</b> {{ material.0.publishing_company }}<br />
+          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br />
+          <b>Tipo:</b> {{ material.0.get_category_display }}<br />
+          <b>Assuntos:</b> {% for subject in material.0.subject.all %}
+          {{ subject }}, {% endfor %}
+        </p>
       </div>
     </div>
-    {% endif %}
-  {% endfor %}
-
-
+  </div>
+  {% endif %} {% endfor %}
 </div>
-
-
-
 
 <div class="row">
   <h4 class="center">Materiais em Doação</h4>
-  <hr>
-  {% for material in materiais %}
-  {% if material.1 == 1 %}
+  <hr />
+  {% for material in materiais %} {% if material.1 == 1 %}
   <div class="col m3">
     <div class="card large">
       <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="static/images/{{ material.0.image }}" alt="img">
+        <img
+          class="activator"
+          src="static/images/{{ material.0.image }}"
+          alt="img"
+        />
       </div>
       <div class="card-content">
         <span class="card-title center">
-          <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
+          <p class="flow-text truncate">
+            <b>{{ material.0.title }}</b>
+          </p>
         </span>
         <center>
-            <div class="card-action">
-              <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
-            </div>
+          <div class="card-action">
+            <a
+              href="{% url 'ads:vermais_url' material.1 material.0.pk %}"
+              class="btn btn-primary"
+              role="button"
+              >Ver mais</a
+            >
+          </div>
         </center>
       </div>
       <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
-        <span class="card-title grey-text text-darken-4"><b>{{ material.0.title }}</b></span>
-        <hr>
-        <p><b>Autor:</b> {{ material.0.author }}<br>
-          <b>ISBN:</b> {{ material.0.ISBN }}<br>
-          <b>Editora:</b> {{ material.0.publishing_company }}<br>
-          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br>
-          <b>Tipo:</b> {{ material.0.get_category_display }}<br>
+        <span class="card-title grey-text text-darken-4"
+          ><b></b><i class="material-icons right">close</i></span
+        >
+        <span class="card-title grey-text text-darken-4"
+          ><b>{{ material.0.title }}</b></span
+        >
+        <hr />
+        <p>
+          <b>Autor:</b> {{ material.0.author }}<br />
+          <b>ISBN:</b> {{ material.0.ISBN }}<br />
+          <b>Editora:</b> {{ material.0.publishing_company }}<br />
+          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br />
+          <b>Tipo:</b> {{ material.0.get_category_display }}<br />
           <b>Assuntos:</b> {% for subject in material.0.subject.all %}
           {{ subject }}, {% endfor %}
         </p>
       </div>
     </div>
   </div>
-  {% endif %}
-  {% endfor %}
-
-</div>
-<div class="fixed-action-btn">
-  <a href="{% url "materials:new_material" %}" class="btn-floating btn-large red tooltipped" data-position="bottom"
-    data-tooltip="Novo material"> <i class="large material-icons">add</i></a>
+  {% endif %} {% endfor %}
 </div>
 
 <div class="row">
-  <br>
+  <br />
   <h4 class="center">Materiais em Empréstimo</h4>
-  <hr>
-  {% for material in materiais %}
-  {% if material.1 == 2 %}
+  <hr />
+  {% for material in materiais %} {% if material.1 == 2 %}
   <div class="col m3">
     <div class="card large">
       <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="static/images/{{ material.0.image }}" alt="img">
+        <img
+          class="activator"
+          src="static/images/{{ material.0.image }}"
+          alt="img"
+        />
       </div>
       <div class="card-content">
         <span class="card-title center">
-          <p class="flow-text truncate"><b>{{ material.0.title }}</b></p>
+          <p class="flow-text truncate">
+            <b>{{ material.0.title }}</b>
+          </p>
         </span>
         <center>
-            <div class="card-action">
-              <a href="{% url 'ads:vermais_url' material.1 material.0.pk %}" class="btn btn-primary" role="button">Ver mais</a>
-            </div>
+          <div class="card-action">
+            <a
+              href="{% url 'ads:vermais_url' material.1 material.0.pk %}"
+              class="btn btn-primary"
+              role="button"
+              >Ver mais</a
+            >
+          </div>
         </center>
       </div>
       <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4"><b></b><i class="material-icons right">close</i></span>
-        <span class="card-title grey-text text-darken-4"><b>{{ material.0.title }}</b></span>
-        <hr>
-        <p><b>Autor:</b> {{ material.0.author }}<br>
-          <b>ISBN:</b> {{ material.0.ISBN }}<br>
-          <b>Editora:</b> {{ material.0.publishing_company }}<br>
-          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br>
-          <b>Tipo:</b> {{ material.0.get_category_display }}<br>
+        <span class="card-title grey-text text-darken-4"
+          ><b></b><i class="material-icons right">close</i></span
+        >
+        <span class="card-title grey-text text-darken-4"
+          ><b>{{ material.0.title }}</b></span
+        >
+        <hr />
+        <p>
+          <b>Autor:</b> {{ material.0.author }}<br />
+          <b>ISBN:</b> {{ material.0.ISBN }}<br />
+          <b>Editora:</b> {{ material.0.publishing_company }}<br />
+          <b>Conservação:</b> {{ material.0.get_conservation_display }}<br />
+          <b>Tipo:</b> {{ material.0.get_category_display }}<br />
           <b>Assuntos:</b> {% for subject in material.0.subject.all %}
           {{ subject }}, {% endfor %}
         </p>
       </div>
     </div>
   </div>
-  {% endif %}
-  {% endfor %}
-
+  {% endif %} {% endfor %}
 </div>
-
-<div class="fixed-action-btn">
-  <a href="{% url "materials:new_material" %}" class="btn-floating btn-large red tooltipped" data-position="bottom"
-    data-tooltip="Novo material"> <i class="large material-icons">add</i></a>
-</div>
-
-<div id="map" style="height:400px"></div>
-
-<div class="fixed-action-btn">
-  <a class="btn-floating btn-large red">
-    <i class="large material-icons">mode_edit</i>
-  </a>
-  <ul>
-    <li>
-      <a class="btn-floating red"><i class="material-icons">insert_chart</i></a>
-    </li>
-    <li>
-      <a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a>
-    </li>
-    <li>
-      <a class="btn-floating green"><i class="material-icons">publish</i></a>
-    </li>
-    <li>
-      <a class="btn-floating blue"><i class="material-icons">attach_file</i></a>
-    </li>
-  </ul>
-</div>
-
 
 {% endblock %}

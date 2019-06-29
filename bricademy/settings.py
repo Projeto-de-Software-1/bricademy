@@ -141,7 +141,7 @@ STATICFILES_DIRS = [
     'static'
 ]
 LOGIN_REDIRECT_URL = 'home'
-
+LOGIN_URL = 'users:login'
 # CONFIGURAR EMAIL
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',

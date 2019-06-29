@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import MaterialForm
 from .models import Material, Ad, Subject
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def newMaterial(request):
     if request.method == 'POST':
         form = MaterialForm(request.POST, request.FILES)
@@ -24,6 +26,7 @@ def newMaterial(request):
         return render(request, 'materials/new_material.html',  {'form': form})
 
 
+@login_required
 def editMaterial(request, pk):
     material = get_object_or_404(Material, pk=pk)
     if(material.user != request.user):
@@ -54,6 +57,27 @@ def editMaterial(request, pk):
 # completar return
 
 
+def excluirMaterial(request, pk):
+    material = get_object_or_404(Material, pk=pk)
+    if(material.user != request.user):
+        messages.error(request, 'Este material não lhe pertence')
+        return redirect('materials:list_material')
+    if(material.deleted == 1):
+        messages.error(request, 'Este material foi removido')
+        return redirect('materials:list_material')
+    ad = Ad.objects.filter(material_id=pk)
+    if (ad):
+        messages.error(
+            request, 'Material possui um Anúncio, primeiro remova-o')
+        return redirect('materials:list_material')
+    else:
+        messages.success(request, 'Material deletado com sucesso')
+        material.deleted = 1
+        material.save()
+        return redirect('materials:list_material')
+
+
+@login_required
 def ListMaterials(request):
     materials = Material.objects.filter(user=request.user, deleted=0)
     anuncios = Ad.objects.all()
@@ -63,17 +87,16 @@ def ListMaterials(request):
             if m.pk == ad.material.pk:
                 anunciados.append(ad.material)
 
-    return render(request, 'materials/list_material.html',  {'materials': materials, 'anunciados':anunciados})
+    return render(request, 'materials/list_material.html',  {'materials': materials, 'anunciados': anunciados})
 
 
-def ad_teste(request):
-    ad = Ad.objects.first()
-    print(ad.material.user.id)
-
+@login_required
 def minhasSolicitacoes(request):
     materials = []
     return render(request, 'materials/minhas_solicitacoes.html',  {'materials': materials})
 
+
+@login_required
 def solicitacoesRecebidas(request):
     materials = []
     return render(request, 'materials/solicitacoes_recebidas.html',  {'materials': materials})

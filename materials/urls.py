@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import newMaterial, minhasSolicitacoes, solicitacoesRecebidas, ListMaterials, editMaterial,ad_teste
+from .views import newMaterial, minhasSolicitacoes, solicitacoesRecebidas, ListMaterials, editMaterial, excluirMaterial
 
 app_name = 'materials'
 urlpatterns = [
@@ -8,5 +8,5 @@ urlpatterns = [
     path('solicitacoes', minhasSolicitacoes, name="minhas_solicitacoes"),
     path('recebidas', solicitacoesRecebidas, name="solicitacoes_recebidas"),
     path('edit/<int:pk>', editMaterial, name="edit_material"),
-    path('teste', ad_teste)
+    path('excluir/<int:pk>', excluirMaterial, name="excluir_material")
 ]

@@ -8,6 +8,7 @@ from .forms import ProfileForm, AddressForm
 from .models import Address
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -32,6 +33,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
+@login_required
 def update_profile(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES)
@@ -69,16 +71,19 @@ class Login(LoginView):
     redirect_authenticated_user = 'home'
 
 
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('home')
 
 
+@login_required
 def profile(request):
     address = Address.objects.filter(user=request.user).first()
     return render(request, 'users/profile.html',  {'address': address})
 
 
+@login_required
 def newAddress(request):
     error = False
     mapbox_access_token = ""

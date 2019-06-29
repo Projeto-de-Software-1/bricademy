@@ -85,19 +85,24 @@ def profile(request):
 
 @login_required
 def newAddress(request):
-    error = False
-    mapbox_access_token = ""
-
     if request.method == 'POST':
         form = AddressForm(request.POST)
         if form.is_valid():
+            old_address = Address.objects.filter(user=request.user)
+            if(old_address):
+                old_address.delete()
             form.instance.user = request.user
             form.save()
-            error = False
+            messages.success(request, 'Endereço salvo com sucesso!')
 
-            return render(request, 'home.html', {'mapbox_access_token': mapbox_access_token})
+            return redirect('users:perfil')
         else:
-            error = True
+            messages.error(request, 'Falha ao salvar endereço')
+            return redirect('users:perfil')
     else:
-        form = AddressForm()
-    return render(request, 'users/new_address.html',  {'form': form, 'mapbox_access_token': mapbox_access_token,  'error': error})
+        try:
+            old_address = Address.objects.get(user=request.user)
+            form = AddressForm(instance=old_address)
+        except:
+            form = AddressForm()
+        return render(request, 'users/new_address.html', {'form': form})

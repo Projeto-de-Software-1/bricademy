@@ -1,8 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block title %} 
-Registro {% endblock %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
 <div class="row">
-  <br/><br/><br/><br/>
+  <br /><br /><br /><br />
   <div class="col s12 m6 l6">
     <div id="profile-card" class="card">
       <div class="card-image waves-effect waves-block waves-light">
@@ -56,10 +55,10 @@ Registro {% endblock %} {% block content %}
       </div>
       <div class="card-content">
         <a
-          class="btn-floating  btn-move-up waves-effect waves-light red accent-2 z-depth-4 right"
+          href="{% url 'users:new_address' %}"
+          class="btn-floating btn-move-up waves-effect waves-light red accent-2 z-depth-4 right"
+          ><i class="material-icons">edit</i></a
         >
-          <i class="material-icons">edit</i>
-        </a>
         <span class="card-title activator grey-text text-darken-4"
           >Endereço</span
         >

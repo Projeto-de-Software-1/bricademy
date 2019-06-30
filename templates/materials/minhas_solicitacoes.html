@@ -4,11 +4,20 @@
 {% block content %}
 
 <center><h3>Minhas solicitações</h3></center>
-{% for solicitacao in solicitacoes %}
-  tipo da solicitacao: {{solicitacao.ad.get_ad_type_display}}
-  dono do anuncio: {{solicitacao.ad.material.user.username}}
-  
-{% endfor %}
+
+  {% for solicitacao in solicitacoes %}
+    
+    Tipo (venda/doacao/emprestimo): {{solicitacao.ad.ad_type}} <br>
+    Dono do anúncio: {{solicitacao.ad.material.user.username}}
+    <br>
+    <a
+            href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
+            class="btn btn-primary"
+            role="button"
+            >Negociação</a
+        >
+    <br/>
+  {% endfor %}
 {% endblock %}
 //acessar dados do material solicitacao.ad.material
 //dados do anunciante solicitacao.ad.material.ad.dadoquequer

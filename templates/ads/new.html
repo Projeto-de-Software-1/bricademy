@@ -13,25 +13,7 @@
     </div>
     <form method="post">
       {% csrf_token %}
-      <p>
-        <label for="id_price">Price:</label>
-        <input type="number" name="price" required id="id_price" step="0.01" />
-      </p>
-      <p>
-        <label for="id_address">Endereço:</label>
-        <input
-          readonly
-          type="text"
-          name="address"
-          required
-          id="id_address"
-          maxlength="200"
-        /><input type="hidden" name="latitude" id="id_latitude" /><input
-          type="hidden"
-          name="longitude"
-          id="id_longitude"
-        />
-      </p>
+      {{form}}
       <button class="btn waves-effect waves-light green" type="submit">
         <i class="material-icons right">send</i>Cadastrar
       </button>

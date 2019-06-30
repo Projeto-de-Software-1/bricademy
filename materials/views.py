@@ -59,13 +59,17 @@ def editMaterial(request, pk):
 
 def excluirMaterial(request, pk):
     material = get_object_or_404(Material, pk=pk)
+
     if(material.user != request.user):
         messages.error(request, 'Este material não lhe pertence')
         return redirect('materials:list_material')
+
     if(material.deleted == 1):
         messages.error(request, 'Este material foi removido')
         return redirect('materials:list_material')
+        
     ad = Ad.objects.filter(material_id=pk)
+
     if (ad):
         messages.error(
             request, 'Material possui um Anúncio, primeiro remova-o')

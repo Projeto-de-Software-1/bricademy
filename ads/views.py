@@ -17,9 +17,9 @@ def index(request):
     material = []
     tipos = []
     for ad in anuncios:
-        print("OIOIEOSJOSDF\nsdoifjsdoif")
-        material.append(ad.material)
-        tipos.append(ad.ad_type)
+        if(ad.deletado == 0):
+            material.append(ad.material)
+            tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
     todos.sort(key=lambda x: x[0])
     return render(request, 'home.html', {'materiais': todos})
@@ -27,6 +27,7 @@ def index(request):
 
 @login_required
 def cria_anuncio(request, pk, tipo):
+
     # Verifica se já existe um anúncio para aquele material. Se nao tiver anuncia, senão retorna direto.
     ads = Ad.objects.filter(material=pk)
     if not ads:
@@ -45,21 +46,49 @@ def cria_anuncio(request, pk, tipo):
             else:
                 form = AdEmprestimoForm()
             return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
+       
         elif(request.method == 'POST'):
-            form = AdVendaForm(request.POST)
+
+            if(tipo == 0):
+                form = AdVendaForm(request.POST)
+            elif(tipo == 1):
+                form = AdDoacaoForm(request.POST)
+            else:
+                form = AdEmprestimoForm(request.POST)
+
             if not form.data['address']:
                 messages.error(request, 'Selecione um endereço para o anúncio')
                 return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
+
             if form.is_valid():
                 ad = form.save(commit=False)
                 ad.material = material
                 ad.ad_type = tipo
+
+                if ad.price == None:
+                    ad.price = 0
                 ad.save()
                 messages.success(request, 'Anúncio criado com sucesso!!')
     else:
         messages.warning(request, 'Material já anunciado')
 
     return redirect('home')
+
+
+def excluir_anuncio(request, pk):
+
+    solicitacoes = Request.objects.all()
+
+    for s in solicitacoes:
+        if s.ad.pk == pk:
+            messages.warning(request, 'Você precisa responder as solicitações sobre este anúncio')
+            return redirect('materials:list_material')
+    
+    anuncio = get_object_or_404(Ad, material=pk)
+    anuncio.deleted = 1
+    anuncio.save()
+    messages.success(request, 'Anúncio deletado com sucesso')
+    return redirect('materials:list_material')
 
 
 # recebe o tipo de anuncio e o id do material
@@ -75,15 +104,17 @@ def vermais(request, tipo, pk):
 
 
 @login_required
-def venda(request,  anuncio, pk):
+def solicitacao(request,  anuncio, pk):
     anuncio = get_object_or_404(Ad, material_id=pk)
     if(anuncio.deleted == 1):
-        messages.error(request, 'Este anuncio foi removido pelo dono')
+        messages.error(request, 'Este anúncio foi removido pelo dono')
         return redirect('home')
+
     solicitacao = Request.objects.filter(ad=anuncio, user=request.user)
+
     if(solicitacao):
         messages.warning(
-            request, 'Você ja fez uma solicitação para esse material')
+            request, 'Você já fez uma solicitação para esse material')
         return redirect('home')
     else:
         solicitacao = Request.objects.create(ad=anuncio, user=request.user)
@@ -91,12 +122,8 @@ def venda(request,  anuncio, pk):
             request, 'Solicitação enviada com sucesso')
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
-
 @login_required
-def emprestimo(request, anuncio, pk):
-    return redirect('home')
+def negociacao(request, pk):
+    anuncio = get_object_or_404(Ad, pk=pk)
+    return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
-
-@login_required
-def doacao(request, anuncio, pk):
-    return redirect('home')

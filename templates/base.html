@@ -174,37 +174,10 @@
   {% endfor %}
 
   <script>
-    $(document).ready(function () {
-      var trig = 1;
-      $('#search').click(function (e) {
-        if (trig == 1) {
-          $('#navfix2').animate({
-            width: '+=55',
-            marginRight: 0
-          }, 400);
-          trig++;
-        }
-      });
-      $("#search").focusout(function () {
-        $('#navfix2').animate({
-          width: '-=55'
-        }, 400);
-        trig = trig - 1;
-      });
-      $(".dropdown-trigger").dropdown({
-        hover: true,
-        coverTrigger: false,
-        alignment: 'center',
-        constrainWidth: false,
-      });
-      var pageUrl = window.location.pathname.split("/").pop();
-      var target = $('nav a[href="' + pageUrl + '"]').parent().addClass('active');
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.sidenav');
+      var instances = M.Sidenav.init(elems, options);
     });
-      
-        document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elems, options);
-  });
   </script>
 
 </body>

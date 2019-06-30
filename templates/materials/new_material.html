@@ -1,21 +1,48 @@
-{% extends 'base.html' %} {% load static %} 
-{% block title %} Novo material 
+{% extends 'base.html' %} {% load static %}
+{% block title %} Novo material
 {% endblock %} {% block content %}
 <div class="container">
   <div class="card-panel">
     <div class="card-content">
-      <h4 class="header">Material</h4>
+      <h4 class="header center" style="color:white; text-shadow: 2px 2px 3px #000">Material</h4>
     </div>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {{ form.as_p }}
+      <p><label for="id_title">Título:</label> <input type="text" name="title" id="id_title" required="" maxlength="50">
+      </p>
+      <p><label for="id_author">Autor:</label> <input type="text" name="author" id="id_author" required=""
+          maxlength="50"></p>
+      <p><label for="id_ISBN">ISBN:</label> <input type="text" name="ISBN" id="id_ISBN" maxlength="13"></p>
+      <p><label for="id_publishing_company">Editora:</label> <input type="text" name="publishing_company"
+          id="id_publishing_company" maxlength="50"></p>
+      <label for="id_publication_date">Publication date:</label>
+      <input type="date" name="publication_date" id="id_publication_date">
+      <p><label for="id_conservation">Conservation:</label>
+        {{ form.conservation }}
+      </p>
+      <p><label for="id_category">Category:</label>
+        {{ form.category }}
+      </p>
+      <p><label for="id_subject">Subject:</label>
+        {{ form.subject }}
+      </p>
+      <p>
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Image</span>
+            <input type="file" name="image" accept="image/*" required="" id="id_image">
+          </div>
+          <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+        </div>
+      </p>
       <button class="btn waves-effect waves-light green" type="submit">
         <i class="material-icons right">send</i>Cadastrar
       </button>
-      <a href="{% url 'materials:list_material' %}" class="btn grey lighten-1"
-        >Cancelar</a
-      >
+      <a href="{% url 'materials:list_material' %}" class="btn grey lighten-1">Cancelar</a>
     </form>
   </div>
 </div>
+
 {% endblock %}

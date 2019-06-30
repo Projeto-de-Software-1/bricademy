@@ -13,7 +13,7 @@ def home(request):
             material.append(ad.material)
             tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
-    return render(request, 'home.html', {'materiais': todos})
+    return render(request, 'home.html', {'materiais': todos, 'anuncios': anuncios, 'token': settings.MAPBOX_TOKEN})
     # return render(request, 'home.html')
 
 

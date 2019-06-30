@@ -4,7 +4,7 @@
 {% if tipo == 0 %}
 
     <div class="card-reveal">
-    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2><h4>${{anuncio.price}}</h4></b></span>
+    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2><h4>R${{anuncio.price}}</h4></b></span>
     <hr>
     <p><b>Autor:</b> {{ material.author }}<br>
         <b>ISBN:</b> {{ material.ISBN }}<br>
@@ -37,7 +37,18 @@
     {% endif %}
 
 {% elif tipo == 1 %}
-    ver que campos mostrar de material para doação
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2></b></span>
+    <hr>
+    <p><b>Autor:</b> {{ material.author }}<br>
+        <b>ISBN:</b> {{ material.ISBN }}<br>
+        <b>Editora:</b> {{ material.publishing_company }}<br>
+        <b>Conservação:</b> {{ material.get_conservation_display }}<br>
+        <b>Tipo:</b> {{ material.get_category_display }}<br>
+        <b>Assuntos:</b> {% for subject in material.subject.all %}
+        {{ subject }}, {% endfor %}
+    </p>
+    </div>
 
     {% if material.user.pk == user.pk %}
       <center>
@@ -60,7 +71,18 @@
     {% endif %}
 
 {% else %}
-    ver que campos mostrar de material para emprestimo
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2></b></span>
+    <hr>
+    <p><b>Autor:</b> {{ material.author }}<br>
+        <b>ISBN:</b> {{ material.ISBN }}<br>
+        <b>Editora:</b> {{ material.publishing_company }}<br>
+        <b>Conservação:</b> {{ material.get_conservation_display }}<br>
+        <b>Tipo:</b> {{ material.get_category_display }}<br>
+        <b>Assuntos:</b> {% for subject in material.subject.all %}
+        {{ subject }}, {% endfor %}
+    </p>
+    </div>
     {% if material.user.pk == user.pk %}
       <center>
           <b>Este material é seu.</b>

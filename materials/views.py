@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import MaterialForm
-from .models import Material, Ad, Subject
+from .models import Material, Ad, Subject, Request
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -92,11 +92,25 @@ def ListMaterials(request):
 
 @login_required
 def minhasSolicitacoes(request):
+    Solicitacoes = Request.objects.filter(user=request.user)
     materials = []
-    return render(request, 'materials/minhas_solicitacoes.html',  {'materials': materials})
+    return render(request, 'materials/minhas_solicitacoes.html',  {'solicitacoes': Solicitacoes})
 
 
 @login_required
 def solicitacoesRecebidas(request):
-    materials = []
-    return render(request, 'materials/solicitacoes_recebidas.html',  {'materials': materials})
+    Requests = Request.objects.all()
+    Solicitacoes = []
+
+    for req in Requests:
+        # Se o dono do material for o cara que ta acessando
+        # vai pegar todos as solicitacoes pros anuncios cujo o material é dele
+        # mas acho que essa view seria interessante fazer algo em pegar todos os anuncios
+        # e depois verificar as solicitacoes pra cada anuncios, daí da pra iterar e mostrar as solicitações
+        # pros anuncios isoladas
+
+        # resumindo seria uma pagina mostrando 'meus anuncios' e podendo clicar pra ver as solicitacoes dele
+        if req.ad.material.user == request.user:
+            Solicitacoes.append(req)
+
+    return render(request, 'materials/solicitacoes_recebidas.html',  {'solicitacoes': Solicitacoes})

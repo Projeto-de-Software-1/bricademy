@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '3*wj&x2@ahgl_t^7*l1^=z6eewopz6nj0)(ar$aubot76$3k16'
-MAPBOX_TOKEN = 'pk.eyJ1IjoiZG95bGVzbTIiLCJhIjoiY2p4ZjhmaHFlMHg2NTNvcGtnMnY1bXJmNCJ9.RAnlODIlx7D47rPWD9GMLw'
+MAPBOX_TOKEN = ''
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

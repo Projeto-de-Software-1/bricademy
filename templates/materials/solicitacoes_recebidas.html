@@ -4,5 +4,9 @@
 {% block content %}
 
     <center><h3>Solicitações recebidas</h3></center>
-
+{% for solicitacao in solicitacoes %}
+Material anunciado: {{solicitacao.ad.material.title}} </br>
+tipo do anuncio: {{solicitacao.ad.get_ad_type_display}} </br>
+solicitante: {{solicitacao.user.username}}
+{% endfor %}
 {% endblock %}

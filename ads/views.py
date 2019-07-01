@@ -79,18 +79,23 @@ def excluir_anuncio(request, pk):
 
     solicitacoes = Request.objects.all()
 
-    for s in solicitacoes:
-        if s.ad.pk == pk:
-            messages.warning(
-                request, 'Você precisa responder as solicitações sobre este anúncio')
-            return redirect('materials:list_material')
+    # for s in solicitacoes:
+    #    if s.ad.pk == pk:
+    #        messages.warning(
+    #            request, 'Você precisa responder as solicitações sobre este anúncio')
+    #        return redirect('materials:list_material')
 
     anuncio = get_object_or_404(Ad, material=pk)
-    anuncio.delete()
-    #anuncio.deleted = 1
-    # anuncio.save()
-    messages.success(request, 'Anúncio deletado com sucesso')
-    return redirect('materials:list_material')
+    if anuncio.request_accepted is not None:
+        messages.error(
+            request, 'Você já aceitou uma solicitação, não é possível remover')
+        return redirect('materials:list_material')
+    else:
+        anuncio.delete()
+        #anuncio.deleted = 1
+        # anuncio.save()
+        messages.success(request, 'Anúncio deletado com sucesso')
+        return redirect('materials:list_material')
 
 
 # recebe o tipo de anuncio e o id do material

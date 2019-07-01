@@ -9,8 +9,8 @@
       <div class="card-image">
         <img src="{{ material.image.url }}" alt="img">
         <a href="{% url 'ads:ad_url' material.pk 0 %}" class="btn-floating btn-large waves-effect waves-light green" title="Vender"><i class="material-icons">attach_money</i></a>
-        <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn-floating btn-large waves-effect waves-light green" title="Doar"><i class="material-icons">history</i></a>
-        <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn-floating btn-large waves-effect waves-light green" title="Emprestar"><i class="material-icons">loyalty</i></a>
+        <a href="{% url 'ads:ad_url' material.pk 1 %}" class="btn-floating btn-large waves-effect waves-light green" title="Doar"><i class="material-icons">loyalty</i></a>
+        <a href="{% url 'ads:ad_url' material.pk 2 %}" class="btn-floating btn-large waves-effect waves-light green" title="Emprestar"><i class="material-icons">history</i></a>
         <a href="{% url 'materials:edit_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Editar"><i class="material-icons">edit</i></a>
         <a href="{% url 'materials:excluir_material' material.pk %}" class="btn-floating btn-large waves-effect waves-light red" title="Excluir"><i class="material-icons">delete</i></a>  
       </div>

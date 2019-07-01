@@ -13,9 +13,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', home, name="home"),
-    path('map', homemap, name="map"),
-    path('sobre', sobre, name="sobre"),
-
+    path('map/', homemap, name="map"),
+    path('sobre/', sobre, name="sobre"),
     path('materials/', include(materials_urls)),
     path('users/', include(users_urls)),
     path('ads/', include(ads_urls)),

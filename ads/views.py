@@ -100,9 +100,9 @@ def excluir_anuncio(request, pk):
 
 # recebe o tipo de anuncio e o id do material
 @login_required
-def vermais(request, tipo, pk):
+def vermais(request, pk):
     anuncio = get_object_or_404(Ad, material_id=pk)
-
+    tipo = anuncio.ad_type
     if(anuncio.deleted == 1):
         messages.error(request, 'Este anuncio foi removido pelo dono')
         return redirect('home')

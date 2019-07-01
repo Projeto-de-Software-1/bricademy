@@ -5,7 +5,7 @@ urlpatterns = [
     path('', index, name="index_url"),
     path('novo/<int:pk>/<int:tipo>', cria_anuncio, name="ad_url"),
     path('excluir/<int:pk>', excluir_anuncio, name="excluir_url"),
-    path('vermais/<int:tipo>/<int:pk>', vermais, name="vermais_url"),
+    path('vermais/<int:pk>', vermais, name="vermais_url"),
     path('solicitacao/<int:anuncio>/<int:pk>',
          solicitacao, name="solicitacao_url"),
     path('negociacao/<int:pk>', negociacao, name="negociacao_url"),

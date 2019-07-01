@@ -67,7 +67,7 @@ def excluirMaterial(request, pk):
     if(material.deleted == 1):
         messages.error(request, 'Este material foi removido')
         return redirect('materials:list_material')
-        
+
     ad = Ad.objects.filter(material_id=pk)
 
     if (ad):
@@ -88,7 +88,7 @@ def ListMaterials(request):
     anunciados = []
     for ad in anuncios:
         for m in materials:
-            if m.pk == ad.material.pk:
+            if m.pk == ad.material.pk and ad.deleted == 0:
                 anunciados.append(ad.material)
 
     return render(request, 'materials/list_material.html',  {'materials': materials, 'anunciados': anunciados})

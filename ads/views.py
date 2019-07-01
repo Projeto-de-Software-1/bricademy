@@ -46,7 +46,7 @@ def cria_anuncio(request, pk, tipo):
             else:
                 form = AdEmprestimoForm()
             return render(request, 'ads/new.html', {'form': form, 'token': settings.MAPBOX_TOKEN})
-       
+
         elif(request.method == 'POST'):
 
             if(tipo == 0):
@@ -81,9 +81,10 @@ def excluir_anuncio(request, pk):
 
     for s in solicitacoes:
         if s.ad.pk == pk:
-            messages.warning(request, 'Você precisa responder as solicitações sobre este anúncio')
+            messages.warning(
+                request, 'Você precisa responder as solicitações sobre este anúncio')
             return redirect('materials:list_material')
-    
+
     anuncio = get_object_or_404(Ad, material=pk)
     anuncio.deleted = 1
     anuncio.save()
@@ -122,8 +123,8 @@ def solicitacao(request,  anuncio, pk):
             request, 'Solicitação enviada com sucesso')
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
 
+
 @login_required
 def negociacao(request, pk):
     anuncio = get_object_or_404(Ad, pk=pk)
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
-

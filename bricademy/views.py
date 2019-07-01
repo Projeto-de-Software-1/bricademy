@@ -13,9 +13,10 @@ def home(request):
     material = []
     tipos = []
     for ad in anuncios:
-        if(ad.deleted == 0):
-            material.append(ad.material)
-            tipos.append(ad.ad_type)
+        # if(ad.deleted == 0):
+        material.append(ad.material)
+        print(ad.ad_type)
+        tipos.append(ad.ad_type)
     todos = list(zip(material, tipos))
     return render(request, 'home.html', {'materiais': todos, 'anuncios': anuncios, 'token': settings.MAPBOX_TOKEN})
     # return render(request, 'home.html')

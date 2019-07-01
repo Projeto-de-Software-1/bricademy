@@ -129,3 +129,24 @@ def solicitacao(request,  anuncio, pk):
 def negociacao(request, pk):
     anuncio = get_object_or_404(Ad, pk=pk)
     return render(request, 'ads/venda.html', {'anuncio': anuncio, 'token': settings.MAPBOX_TOKEN})
+
+
+@login_required
+def meusanuncios(request):
+    todosanuncios = Ad.objects.all()
+    meusanuncios = []
+    for anuncio in todosanuncios:
+        if anuncio.material.user == request.user:
+            meusanuncios.append(anuncio)
+    return render(request, 'ads/meusanuncios.html', {'anuncios': meusanuncios})
+
+
+def solicitacoesanuncio(request, pk):
+    anuncio = get_object_or_404(Ad, pk=pk)
+    todassolicitacoes = Request.objects.all()
+    solicitacoes = []
+    for solicitacao in todassolicitacoes:
+        if solicitacao.ad == anuncio:
+            solicitacoes.append(solicitacao)
+            # return render
+    return render(request, 'materials/solicitacoes_recebidas.html',  {'solicitacoes': solicitacoes})

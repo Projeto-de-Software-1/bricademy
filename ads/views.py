@@ -150,3 +150,18 @@ def solicitacoesanuncio(request, pk):
             solicitacoes.append(solicitacao)
             # return render
     return render(request, 'ads/solicitacoes_recebidas.html',  {'solicitacoes': solicitacoes, 'anuncio': anuncio})
+
+
+def aceitar(request, ad_pk, req_pk):
+    anuncio = get_object_or_404(Ad, pk=ad_pk)
+    solicitacao = get_object_or_404(Request, pk=req_pk)
+    if(anuncio.material.user != request.user):
+        messages.error(request, 'Este material não lhe pertence')
+        return redirect('ads:meus_anuncios')
+    if(anuncio.request_accepted is not None):
+        messages.error(request, 'Você já aceitou uma solicitação')
+        return redirect('ads:meus_anuncios')
+    messages.success(request, 'Solicitação aceita')
+    anuncio.request_accepted = solicitacao
+    anuncio.save()
+    return redirect('ads:meus_anuncios')

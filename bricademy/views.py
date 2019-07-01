@@ -4,6 +4,10 @@ from django.http import HttpResponseNotFound
 from django.conf import settings
 
 
+def sobre(request):
+    return render(request, 'sobre.html')
+
+
 def home(request):
     anuncios = Ad.objects.all()
     material = []

@@ -1,4 +1,10 @@
-{% extends 'base.html' %} {% load static %} {% block content %} {% block head %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}
+Mapa
+{% endblock %}
+{% block content %} 
+{% block head %}
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
 <link
   rel="stylesheet"

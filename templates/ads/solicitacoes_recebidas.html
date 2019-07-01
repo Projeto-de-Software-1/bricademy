@@ -11,18 +11,33 @@
 <br />
 {% for solicitacao in solicitacoes %} <b>Solicitante:</b>
 {{ solicitacao.user.username }}
-<a
+{% if anuncio.request_accepted == solicitacao %}
+  <span class="badge green white-text">Solicitação aceita</span>
+  <a
   href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
   class="btn-small right  btn-primary"
   role="button"
   >Negociação</a
 >
+{% else %}
+  <span class="badge orange white-text">Outra solicitacao aceita</span>
+
+{% endif %}
+{% if anuncio.request_accepted is None %}
 <a
   href="{% url 'ads:aceitar' anuncio.pk solicitacao.pk %}"
   class="btn-small right btn-primary green"
   role="button"
   >Aceitar</a
 >
+<a
+  href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
+  class="btn-small right  btn-primary"
+  role="button"
+  >Negociação</a
+>
+{% endif %}
+
 
 <br />
 <br /><hr/>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Recebidas 
+{% endblock %} {% block content %}
+
+<center>
+  <h3>Solicitações de {{ anuncio.material.title }}</h3>
+</center>
+
+<b>Assuntos:</b> {% for subject in anuncio.material.subject.all %}{{ subject }}, {% endfor %}</br>
+<b>Tipo anúncio:</b> {{ anuncio.get_ad_type_display }} <br />
+
+<br />
+{% for solicitacao in solicitacoes %} <b>Solicitante:</b>
+{{ solicitacao.user.username }}
+<a
+  href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
+  class="btn-small right  btn-primary"
+  role="button"
+  >Negociação</a
+>
+<a
+  href="#"
+  class="btn-small right btn-primary green"
+  role="button"
+  >Aceitar</a
+>
+
+<br />
+<br /><hr/>
+<br />
+{% endfor %}
+{% if not solicitacoes %}
+<h5>Não há solicitações para esse anúncio</h5>
+<br/>
+<a
+  href="{% url 'ads:meus_anuncios' %}"
+  class="btn-small  btn-primary"
+  role="button"
+  >Voltar</a
+>
+{% endif %}
+
+{% endblock %}

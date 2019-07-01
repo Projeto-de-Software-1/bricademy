@@ -149,4 +149,4 @@ def solicitacoesanuncio(request, pk):
         if solicitacao.ad == anuncio:
             solicitacoes.append(solicitacao)
             # return render
-    return render(request, 'materials/solicitacoes_recebidas.html',  {'solicitacoes': solicitacoes})
+    return render(request, 'ads/solicitacoes_recebidas.html',  {'solicitacoes': solicitacoes, 'anuncio': anuncio})

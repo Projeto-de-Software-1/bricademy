@@ -1,24 +1,22 @@
-{% extends 'base.html' %} {% load static %} 
-{% block title %} Solicitações {% endblock %} 
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block title %} Solicitações 
+{% endblock %} {% block content %}
 
 <center><h3>Minhas solicitações</h3></center>
 
-  {% for solicitacao in solicitacoes %}
-    
-    Tipo (venda/doacao/emprestimo): {{solicitacao.ad.ad_type}} <br>
-    Dono do anúncio: {{solicitacao.ad.material.user.username}}
-    <br>
-    <a
-            href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
-            class="btn btn-primary"
-            role="button"
-            >Negociação</a
-        >
-    <br/>
-  {% endfor %}
-{% endblock %}
-//acessar dados do material solicitacao.ad.material
-//dados do anunciante solicitacao.ad.material.ad.dadoquequer
-//dados do anuncio solicitacao.ad
+{% for solicitacao in solicitacoes %} 
+<b>Material</b>: <a target='_blank' href= "{% url 'ads:vermais_url' solicitacao.ad.pk solicitacao.ad.material.pk %}">{{ solicitacao.ad.material.title }} </a><br />
+<b>Tipo anúncio:</b>
+{{ solicitacao.ad.get_ad_type_display }} <br />
+<b>Dono do anúncio:</b> {{ solicitacao.ad.material.user.username }}<br />
+<b>Status</b>: {% if solicitacao.ad.request_accepted == None %} Aguardando {% elif solicitacao.ad.request_accepted.user == user %} Aceita {% else %} Outra solicitação foi aceita {% endif %} 
+<br/>
+<a
+  href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
+  class="btn btn-primary"
+  role="button"
+  >Negociação</a
+>
+<br />
+{% endfor %} {% endblock %} //acessar dados do material solicitacao.ad.material
+//dados do anunciante solicitacao.ad.material.ad.dadoquequer //dados do anuncio
+solicitacao.ad

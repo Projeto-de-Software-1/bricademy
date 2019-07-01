@@ -114,7 +114,7 @@ def solicitacoesRecebidas(request):
         # pros anuncios isoladas
 
         # resumindo seria uma pagina mostrando 'meus anuncios' e podendo clicar pra ver as solicitacoes dele
-        if req.ad.material.user == request.user:
+        if req.ad.material.user == request.user and req.ad.deleted == 0:
             Solicitacoes.append(req)
 
     return render(request, 'materials/solicitacoes_recebidas.html',  {'solicitacoes': Solicitacoes})

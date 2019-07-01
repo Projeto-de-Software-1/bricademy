@@ -12,15 +12,20 @@
 {% for solicitacao in solicitacoes %} <b>Solicitante:</b>
 {{ solicitacao.user.username }}
 {% if anuncio.request_accepted == solicitacao %}
-  <span class="badge green white-text">Solicitação aceita</span>
+<i class="material-icons right green-text">
+  check_circle
+  </i><span class="badge green white-text">Solicitação aceita</span>
   <a
   href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
   class="btn-small right  btn-primary"
   role="button"
   >Negociação</a
 >
-{% else %}
-  <span class="badge orange white-text">Outra solicitacao aceita</span>
+{% endif %}
+{% if anuncio.request_accepted != solicitacao and anuncio.request_accepted is not None %}
+<i class="material-icons right red-text">
+  report
+  </i><span class="badge red white-text">Outra solicitacao aceita</span>
 
 {% endif %}
 {% if anuncio.request_accepted is None %}

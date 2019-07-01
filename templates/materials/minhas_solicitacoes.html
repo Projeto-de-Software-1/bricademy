@@ -20,10 +20,16 @@
 <b>Dono do anúncio:</b> {{ solicitacao.ad.material.user.username }}<br />
 <b class="left">Status:</b>
 {% if solicitacao.ad.request_accepted == None %}
-<span class="badge left orange white-text">Aguardando</span> 
+<i class="material-icons orange-text">
+access_time
+</i><span class="badge left orange white-text">Aguardando</span> 
 {% elif solicitacao.ad.request_accepted.user == user %}
-<span class="badge left green white-text">Aceita</span> 
-{% else %} <span class="badge left red white-text">Outra solicitação foi aceita</span>
+<i class="material-icons green-text">
+check_circle
+</i><span class="badge left green white-text"> Aceita</span> 
+{% else %} <i class="material-icons red-text">
+report
+</i><span class="badge left red white-text">Outra solicitação foi aceita</span>
 {% endif %}
 <br />
 {% if solicitacao.ad.request_accepted == None or solicitacao.ad.request_accepted.user == user %}

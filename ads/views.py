@@ -86,8 +86,9 @@ def excluir_anuncio(request, pk):
             return redirect('materials:list_material')
 
     anuncio = get_object_or_404(Ad, material=pk)
-    anuncio.deleted = 1
-    anuncio.save()
+    anuncio.delete()
+    #anuncio.deleted = 1
+    # anuncio.save()
     messages.success(request, 'Anúncio deletado com sucesso')
     return redirect('materials:list_material')
 

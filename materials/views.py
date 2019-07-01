@@ -108,7 +108,7 @@ def solicitacoesRecebidas(request):
 
     for req in Requests:
         # Se o dono do material for o cara que ta acessando
-        # vai pegar todos as solicitacoes pros anuncios cujo o material é dele
+        # vai pegar todos as soand req.ad.deleted == 0licitacoes pros anuncios cujo o material é dele
         # mas acho que essa view seria interessante fazer algo em pegar todos os anuncios
         # e depois verificar as solicitacoes pra cada anuncios, daí da pra iterar e mostrar as solicitações
         # pros anuncios isoladas

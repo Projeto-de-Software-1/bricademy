@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from materials.models import Ad, Material, Request
 from django.http import HttpResponseNotFound
-from .forms import AdVendaForm, AdDoacaoForm, AdEmprestimoForm
+from .forms import AdVendaForm, AdDoacaoForm, AdEmprestimoForm, AdComplaintForm
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -92,7 +92,7 @@ def excluir_anuncio(request, pk):
         return redirect('materials:list_material')
     else:
         anuncio.delete()
-        #anuncio.deleted = 1
+        # anuncio.deleted = 1
         # anuncio.save()
         messages.success(request, 'Anúncio deletado com sucesso')
         return redirect('materials:list_material')
@@ -170,3 +170,22 @@ def aceitar(request, ad_pk, req_pk):
     anuncio.request_accepted = solicitacao
     anuncio.save()
     return redirect('ads:meus_anuncios')
+
+
+def denuncia(request, pk):
+    anuncio = get_object_or_404(Ad, pk=pk)
+    if(request.method == 'GET'):
+        form = AdComplaintForm()
+        return render(request, 'ads/denuncia.html', {'form': form, 'anuncio': anuncio})
+    else:
+        try:
+            form = AdComplaintForm(request.POST)
+            if form.is_valid():
+                denuncia = form.save(commit=False)
+                denuncia.ad = anuncio
+                form.save()
+                messages.success(request, 'Denúncia enviada')
+        except:
+            messages.error(request, 'Falha ao enviar denúncia')
+        finally:
+            return redirect('ads:vermais_url', pk=anuncio.material.pk)

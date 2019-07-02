@@ -73,7 +73,7 @@ class Ad(models.Model):
 
     class Meta:
         def __str__(self):
-            return self.material
+            return self.material.title
 
 
 class Request(models.Model):

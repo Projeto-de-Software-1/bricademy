@@ -35,7 +35,11 @@
               <div class="card-action"><a href="{% url 'ads:solicitacao_url' anuncio.pk material.pk %}" class="btn btn-primary"
                   role="button">Comprar</a>
               </div>
+              <div class="card-action"><a href="{% url 'ads:denuncia' anuncio.pk  %}" class="btn btn-primary"
+                role="button">Denunciar</a>
+            </div>
           </center>
+
       {% else %}
           <center>
               <div class="card-action">

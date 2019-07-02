@@ -86,15 +86,14 @@ DATABASES = {
     }
 }
 # DATABASES = {
-#    'default': {
-#        'NAME': 'bricademy',
-#        'ENGINE': 'mysql.connector.django',
-#        'USER': 'root',
-#        'PASSWORD': 'root',
-#        'OPTIONS': {
-#          'autocommit': True,
-#        },
-#    }
+#     'default': {
+#         'NAME': 'bricademy',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'USER': 'bricademy',
+#         'PASSWORD': 'bricademy',
+#         'HOST': '192.168.0.45',
+#         'PORT': '5432'
+#     }
 # }
 
 # Password validation

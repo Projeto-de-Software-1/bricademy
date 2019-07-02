@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, solicitacao, vermais, negociacao, excluir_anuncio, cria_anuncio, meusanuncios, solicitacoesanuncio, aceitar
+from .views import index, solicitacao, vermais, negociacao, excluir_anuncio, cria_anuncio, meusanuncios, solicitacoesanuncio, aceitar, denuncia
 app_name = 'ads'
 urlpatterns = [
     path('', index, name="index_url"),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('solicitacoes/<int:pk>', solicitacoesanuncio,
          name='solicitacoes_anuncio'),
     path('aceitar/<int:ad_pk>/<int:req_pk>', aceitar, name="aceitar"),
+    path('denuncia/<int:pk>', denuncia, name="denuncia")
 ]

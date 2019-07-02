@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+{% load static %}
+ {% block title %} 
+ Denúncia 
+ {% endblock %}
+{% block content %}
+
+<center>
+  <h3>Denuncia sobre {{ anuncio.material.title }}</h3>
+</center>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

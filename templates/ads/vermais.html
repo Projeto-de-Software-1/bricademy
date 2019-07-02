@@ -1,82 +1,87 @@
-{% extends 'base.html' %} {% load static %} 
+{% extends 'base.html' %} {% load static %}
 {% block title %} Ver mais {% endblock %} {% block content %}
 
 {% if tipo == 0 %}
 
-    <div class="card-reveal">
-    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2><h4>R${{anuncio.price}}</h4></b></span>
+<div class="card-reveal">
+  <span class="card-title grey-text text-darken-4"><b>
+      <h2>{{ material.title }}</h2>
+      <h4>R${{anuncio.price}}</h4>
+    </b></span>
+  <hr>
+
+  {% else %}
+
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4"><b>
+        <h2>{{ material.title }}</h2>
+      </b></span>
     <hr>
 
-{% else %}
-
-    <div class="card-reveal">
-    <span class="card-title grey-text text-darken-4"><b><h2>{{ material.title }}</h2></b></span>
-    <hr>
-
-{% endif %}
-
-    <p><b>Autor:</b> {{ material.author }}<br>
-        <b>ISBN:</b> {{ material.ISBN }}<br>
-        <b>Editora:</b> {{ material.publishing_company }}<br>
-        <b>Conservação:</b> {{ material.get_conservation_display }}<br>
-        <b>Tipo:</b> {{ material.get_category_display }}<br>
-        <b>Assuntos:</b> {% for subject in material.subject.all %}
-        {{ subject }}, {% endfor %}
-    </p>
-    </div>
-
-    {% if material.user.pk == user.pk %}
-      <center>
-          <b>Este material é seu.</b>
-      </center>
-    {% else %}
-      {% if user.is_authenticated %}
-          <center>
-              <div class="card-action"><a href="{% url 'ads:solicitacao_url' anuncio.pk material.pk %}" class="btn btn-primary"
-                  role="button">Comprar</a>
-              </div>
-              <div class="card-action"><a href="{% url 'ads:denuncia' anuncio.pk  %}" class="btn btn-primary"
-                role="button">Denunciar</a>
-            </div>
-          </center>
-
-      {% else %}
-          <center>
-              <div class="card-action">
-                <a href="{% url 'users:login' %}" class="btn btn-primary" role="button">Comprar</a>
-              </div>
-          </center>
-      {% endif %}
     {% endif %}
 
-<hr>
-<h4>Ver no mapa:</h4>
-Endereço: {{anuncio.address}}
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
-<link
-  rel="stylesheet"
-  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css"
-  type="text/css"
-/>
+    <p><b>Autor:</b> {{ material.author }}<br>
+      <b>ISBN:</b> {{ material.ISBN }}<br>
+      <b>Editora:</b> {{ material.publishing_company }}<br>
+      <b>Conservação:</b> {{ material.get_conservation_display }}<br>
+      <b>Tipo:</b> {{ material.get_category_display }}<br>
+      <b>Assuntos:</b> {% for subject in material.subject.all %}
+      {{ subject }}, {% endfor %}
+    </p>
+  </div>
 
-<div id="map" style="height: 500px;"></div>
+  {% if material.user.pk == user.pk %}
+  <center>
+    <b>Este material é seu.</b>
+  </center>
+  {% else %}
+  {% if user.is_authenticated %}
+  <center>
+    <div class="card-action"><a href="{% url 'ads:solicitacao_url' anuncio.pk material.pk %}"
+        class="btn btn-primary green" role="button"><i class="material-icons left">library_add</i>Comprar</a>
+      <a href="{% url 'ads:denuncia' anuncio.pk  %}" class="btn btn-primary" role="button"><i
+          class="material-icons left">report</i>Denunciar</a>
+    </div>
+    <br>
+  </center>
 
-    <script>
-navigator.geolocation.getCurrentPosition(function(position) {
-    mapboxgl.accessToken = "{{ token }}";
-    var map = new mapboxgl.Map({
-      container: "map", // Container ID
-      style: "mapbox://styles/mapbox/navigation-guidance-day-v2",
+  {% else %}
+  <center>
+    <div class="card-action">
+      <a href="{% url 'users:login' %}" class="btn btn-primary green" role="button"><i
+        class="material-icons left">library_add</i>Comprar</a>
+    </div>
+  </center>
+  {% endif %}
+  {% endif %}
 
-      center: [{{anuncio.longitude}}, {{anuncio.latitude}}], // Starting position [lng, lat]
+  <hr>
+  <h4>Ver no mapa:</h4>
+  Endereço: {{anuncio.address}}
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.3.0/mapbox-gl-geocoder.css"
+    type="text/css" />
+
+  <div id="map" style="height: 500px;"></div>
+
+  <script>
+    navigator.geolocation.getCurrentPosition(function (position) {
+      mapboxgl.accessToken = "{{ token }}";
+      var map = new mapboxgl.Map({
+        container: "map", // Container ID
+        style: "mapbox://styles/mapbox/navigation-guidance-day-v2",
+
+        center: [{{ anuncio.longitude }}, {{ anuncio.latitude }}], // Starting position [lng, lat]
       zoom: 15 // Starting zoom level
     });
 
 
     map.addControl(new mapboxgl.GeolocateControl({
       positionOptions: {
-      enableHighAccuracy: true
-    },
+        enableHighAccuracy: true
+      },
       trackUserLocation: true
     }));
 
@@ -84,21 +89,21 @@ navigator.geolocation.getCurrentPosition(function(position) {
       id: "places",
       type: "FeatureCollection",
       features: [
-      {
+        {
           type: "Feature",
           properties: {
             iconSize: [20, 20],
           },
           geometry: {
             type: "Point",
-            coordinates: [{{anuncio.longitude}}, {{anuncio.latitude}}],
+            coordinates: [{{ anuncio.longitude }}, {{ anuncio.latitude }}],
           }
         },
       ]
     };
 
 
-    geojson.features.forEach(function(marker) {
+    geojson.features.forEach(function (marker) {
       // create a DOM element for the marker
       var el = document.createElement("div");
       el.className = "marker";
@@ -109,9 +114,10 @@ navigator.geolocation.getCurrentPosition(function(position) {
 
 
       // add marker to map
-      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);});      // Create a popup, but don't add it to the map yet.
+      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+    });      // Create a popup, but don't add it to the map yet.
   });
-    </script>
+  </script>
 
 
-{% endblock %}
+  {% endblock %}

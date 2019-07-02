@@ -1,18 +1,32 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
- {% block title %} 
- Denúncia 
- {% endblock %}
+{% block title %}
+Denúncia
+{% endblock %}
 {% block content %}
 
 <center>
-  <h3>Denuncia sobre {{ anuncio.material.title }}</h3>
+  <h3>Realizar Denúncia Sobre {{ anuncio.material.title }}</h3>
 </center>
-
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit" />
-</form>
+<div class="container">
+  <div class="card-panel">
+    <div class="card-content">
+      <form method="post">
+        {% csrf_token %}
+        <textarea class="materialize-textarea" name="message" id="id_message" class="white" cols="40" rows="100"
+          placeholder="Descreva detalhadamente e especificamente os motivos dessa denúncia..."></textarea>
+        <br><br>
+        <label for="id_complaint_type" class="">Tipo de Reclamação:</label>
+        {{ form.complaint_type }}
+        <center>
+          <br>
+          <button class="btn btn-primary" type="submit">
+            <i class="material-icons right">send</i>Enviar Denúncia
+          </button>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

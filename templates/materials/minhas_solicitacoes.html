@@ -1,46 +1,54 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Solicitações  {% endblock %} 
+{% block title %} Solicitações {% endblock %}
 
 {% block content %}
 
 
-<center><h3>Minhas solicitações</h3></center>
+<center>
+  <h3>Minhas Solicitações</h3>
+</center>
 
 {% for solicitacao in solicitacoes %}
-<b>Material</b>:
-<a
-  target="_blank"
-  href="{% url 'ads:vermais_url'  solicitacao.ad.material.pk %}"
-  >{{ solicitacao.ad.material.title }} </a
-><br />
 
-<b>Tipo anúncio:</b> {{ solicitacao.ad.get_ad_type_display }} <br />
-<b>Dono do anúncio:</b> {{ solicitacao.ad.material.user.username }}<br />
-<b class="left">Status:</b>
-{% if solicitacao.ad.request_accepted == None %}
-<i class="material-icons orange-text">
-access_time
-</i><span class="badge left orange white-text">Aguardando</span> 
-{% elif solicitacao.ad.request_accepted.user == user %}
-<i class="material-icons green-text">
-check_circle
-</i><span class="badge left green white-text"> Aceita</span> 
-{% else %} <i class="material-icons red-text">
-report
-</i><span class="badge left red white-text">Outra solicitação foi aceita</span>
-{% endif %}
-<br />
-{% if solicitacao.ad.request_accepted == None or solicitacao.ad.request_accepted.user == user %}
-<br />
-<a
-  href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}"
-  class="btn btn-primary"
-  role="button"
-  >Negociação</a
->
-<br />
-{% endif %}
+<div class="col m4">
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title center">
+        <p class="flow-text truncate">
+          <a target="_blank"
+            href="{% url 'ads:vermais_url'  solicitacao.ad.material.pk %}">{{ solicitacao.ad.material.title }} </a>
+        </p>
+      </span>
+      <p>Tipo anúncio: {{ solicitacao.ad.get_ad_type_display }}</p>
+      <p>Dono do anúncio: {{ solicitacao.ad.material.user.username }}</p>
+      <p class="left">Status:</p>
+      {% if solicitacao.ad.request_accepted == None %}
+      <i class="material-icons orange-text">
+        access_time
+      </i><span class="badge left orange white-text">Aguardando</span>
+      {% elif solicitacao.ad.request_accepted.user == user %}
+      <i class="material-icons green-text">
+        check_circle
+      </i><span class="badge left green white-text"> Aceita</span>
+      {% else %} <i class="material-icons red-text">
+        report
+      </i><span class="badge left red white-text">Outra solicitação foi aceita</span>
+      {% endif %}
+      {% if solicitacao.ad.request_accepted == None or solicitacao.ad.request_accepted.user == user %}
+      {% endif %}
+
+      <center>
+        <div class="card-action">
+          <a href="{% url 'ads:negociacao_url' solicitacao.ad.pk %}" class="btn btn-primary green center" role="button"> <i
+              class="material-icons white-text">
+              chat
+            </i> Negociação</a>
+        </div>
+      </center>
+    </div>
+  </div>
+</div>
 
 {% endfor %} {% endblock %}
